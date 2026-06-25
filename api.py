@@ -23,16 +23,63 @@ os.makedirs(OUTPUTS_DIR, exist_ok=True)
 # Initialize pipeline lazily to save startup time
 pipeline = None
 
+# Helper to find available OGIM candidate paths
+def get_ogim_path():
+    candidates = [
+        r"data/ogim/OGIM_v2.7.gpkg",
+        r"data/ogim/OGIM_mediterranean.gpkg",
+        r"data\ogim\OGIM_v2.7.gpkg",
+        r"data\ogim\OGIM_mediterranean.gpkg"
+    ]
+    for candidate in candidates:
+        if os.path.exists(candidate):
+            return candidate
+    return candidates[0]
+
+# Function to download model if missing
+def download_model_if_missing():
+    model_path = r"data/models/best_deeplabv3plus_resnet50.pth"
+    if os.path.exists(model_path):
+        return
+    
+    fallback_model = r"final_models\DeepLabV3Plus_ResNet50_Dice08712_IoU07761_Epoch7.pth"
+    if os.path.exists(fallback_model):
+        return
+        
+    model_url = os.getenv("MODEL_URL")
+    if not model_url:
+        logging.warning("Model weights are missing, and no MODEL_URL environment variable is set. API queries will fail.")
+        return
+        
+    logging.info(f"Model weights not found. Downloading from MODEL_URL: {model_url}...")
+    try:
+        import requests
+        os.makedirs(os.path.dirname(model_path), exist_ok=True)
+        response = requests.get(model_url, stream=True)
+        response.raise_for_status()
+        with open(model_path, "wb") as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:
+                    f.write(chunk)
+        logging.info("Model downloaded successfully!")
+    except Exception as e:
+        logging.error(f"Failed to download model from {model_url}: {e}")
+
+# Trigger model download immediately on startup/import
+download_model_if_missing()
+
 # In-memory cache for OGIM Mediterranean data (loaded once on first request)
 _ogim_cache = None
-OGIM_PATH = r"data/ogim/OGIM_v2.7.gpkg"
+OGIM_PATH = get_ogim_path()
 MED_BBOX = (10.0, 28.0, 42.0, 47.0)  # Mediterranean: min_lon, min_lat, max_lon, max_lat
 
 def _load_ogim_cache():
     """Load Mediterranean platforms + wells from .gpkg once and cache in memory."""
-    global _ogim_cache
+    global _ogim_cache, OGIM_PATH
     if _ogim_cache is not None:
         return _ogim_cache
+    
+    OGIM_PATH = get_ogim_path()
     records = []
     for layer, layer_type in [("Offshore_Platforms", "Platform"), ("Oil_and_Natural_Gas_Wells", "Well")]:
         try:
@@ -55,17 +102,18 @@ def _load_ogim_cache():
                     "commodity": str(row.get("COMMODITY") or ""),
                 })
         except Exception as e:
-            logging.warning(f"Failed loading OGIM layer {layer}: {e}")
+            logging.warning(f"Failed loading OGIM layer {layer} from {OGIM_PATH}: {e}")
     _ogim_cache = records
-    logging.info(f"OGIM cache loaded: {len(records)} Mediterranean features")
+    logging.info(f"OGIM cache loaded: {len(records)} Mediterranean features from {OGIM_PATH}")
     return _ogim_cache
 
 app = FastAPI(title="OilGuard API")
 
 # Enable CORS for the Next.js dashboard
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -79,6 +127,9 @@ def get_pipeline():
     if pipeline is None:
         logging.info("Initializing OilSpillPipeline...")
         
+        # Ensure model is present (e.g. if env vars were set post-startup or downloaded asynchronously)
+        download_model_if_missing()
+        
         model_path = r"data/models/best_deeplabv3plus_resnet50.pth"
         if not os.path.exists(model_path):
             fallback_model = r"final_models\DeepLabV3Plus_ResNet50_Dice08712_IoU07761_Epoch7.pth"
@@ -89,15 +140,12 @@ def get_pipeline():
                 logging.error(f"Model not found at {model_path} or fallback {fallback_model}")
                 raise RuntimeError("Model file not found. Please ensure the model exists.")
                 
-        ogim_path = r"data/ogim/OGIM_v2.7.gpkg"
+        ogim_path = get_ogim_path()
         if not os.path.exists(ogim_path):
-            fallback_ogim = r"data\ogim\OGIM_v2.7.gpkg"
-            if os.path.exists(fallback_ogim):
-                ogim_path = fallback_ogim
-                logging.info(f"Using fallback OGIM: {ogim_path}")
-            else:
-                logging.warning(f"OGIM database not found at {ogim_path}. Pipeline may fail if it requires it.")
-
+            logging.warning(f"OGIM database not found. Pipeline may fail if it requires it.")
+        else:
+            logging.info(f"Using OGIM database at: {ogim_path}")
+        
         pipeline = OilSpillPipeline(
             model_path=model_path,
             ogim_path=ogim_path

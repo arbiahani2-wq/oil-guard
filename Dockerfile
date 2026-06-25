@@ -24,6 +24,6 @@ COPY . .
 # Create required runtime directories
 RUN mkdir -p data/raw/uploads outputs
 
-EXPOSE 8000
+EXPOSE 7860
 
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "7860"]

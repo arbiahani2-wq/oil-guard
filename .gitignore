@@ -10,7 +10,8 @@ venv/
 *.egg-info/
 
 # ── Large data files & Local databases ──
-data/ogim/
+data/ogim/*
+!data/ogim/OGIM_mediterranean.gpkg
 data/raw/
 data/patches/
 data/models/

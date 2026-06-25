@@ -55,11 +55,20 @@ def main():
             sys.exit(1)
             
     if not os.path.exists(args.ogim):
-        logger.error(f"OGIM database not found: {args.ogim}.")
         # Fallback check
-        if os.path.exists(r"data\ogim\OGIM_v2.7.gpkg"):
-            args.ogim = r"data\ogim\OGIM_v2.7.gpkg"
+        candidates = [
+            r"data/ogim/OGIM_v2.7.gpkg",
+            r"data/ogim/OGIM_mediterranean.gpkg",
+            r"data\ogim\OGIM_v2.7.gpkg",
+            r"data\ogim\OGIM_mediterranean.gpkg"
+        ]
+        for candidate in candidates:
+            if os.path.exists(candidate):
+                args.ogim = candidate
+                logger.info(f"Using fallback OGIM database: {args.ogim}")
+                break
         else:
+            logger.error(f"OGIM database not found: {args.ogim}.")
             sys.exit(1)
             
     try:
