@@ -119,37 +119,47 @@ export default function DashboardPage() {
       </div>
 
       {/* ── KPI Row (5 Cards like mockup) ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3">
-        <MetricCard
-          icon={AlertTriangle} label="ACTIVE ALERTS"
-          value={activeAlerts.toString()}
-          sub={`${criticalCount} Critical · ${highCount} High`}
-          accent="var(--plasma)" pulse={activeAlerts > 0}
-        />
-        <MetricCard
-          icon={Waves} label="TOTAL SPILL AREA"
-          value={`${formattedCurrentArea.value} ${formattedCurrentArea.unit}`}
-          sub="Latest detection"
-          accent="var(--biolum)"
-        />
-        <MetricCard
-          icon={Crosshair} label="DETECTION CONFIDENCE"
-          value="92%"
-          sub="High Confidence"
-          accent="var(--signal-cyan)"
-        />
-        <MetricCard
-          icon={Building2} label="NEAREST INFRASTRUCTURE"
-          value={`${nearestInfraDist} km`}
-          sub={`Closest Platform (${nearestInfraName})`}
-          accent="var(--amber)"
-        />
-        <MetricCard
-          icon={DollarSign} label="ESTIMATED CLEANUP COST"
-          value={formattedCost}
-          sub="Initial Estimate"
-          accent="var(--safe)"
-        />
+      <div className="flex xl:grid xl:grid-cols-5 gap-3 overflow-x-auto snap-x pb-4 -mx-4 px-4 sm:-mx-5 sm:px-5 xl:mx-0 xl:px-0 hide-scrollbar" style={{ scrollPaddingLeft: "16px" }}>
+        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start xl:w-auto xl:max-w-none">
+          <MetricCard
+            icon={AlertTriangle} label="ACTIVE ALERTS"
+            value={activeAlerts.toString()}
+            sub={`${criticalCount} Critical · ${highCount} High`}
+            accent="var(--plasma)" pulse={activeAlerts > 0}
+          />
+        </div>
+        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start xl:w-auto xl:max-w-none">
+          <MetricCard
+            icon={Waves} label="TOTAL SPILL AREA"
+            value={`${formattedCurrentArea.value} ${formattedCurrentArea.unit}`}
+            sub="Latest detection"
+            accent="var(--biolum)"
+          />
+        </div>
+        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start xl:w-auto xl:max-w-none">
+          <MetricCard
+            icon={Crosshair} label="DETECTION CONFIDENCE"
+            value="92%"
+            sub="High Confidence"
+            accent="var(--signal-cyan)"
+          />
+        </div>
+        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start xl:w-auto xl:max-w-none">
+          <MetricCard
+            icon={Building2} label="NEAREST INFRASTRUCTURE"
+            value={`${nearestInfraDist} km`}
+            sub={`Closest Platform (${nearestInfraName})`}
+            accent="var(--amber)"
+          />
+        </div>
+        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start xl:w-auto xl:max-w-none">
+          <MetricCard
+            icon={DollarSign} label="ESTIMATED CLEANUP COST"
+            value={formattedCost}
+            sub="Initial Estimate"
+            accent="var(--safe)"
+          />
+        </div>
       </div>
 
       {/* ── Main Layout: Left (Map + Chart) / Right (Sidebar) ── */}
