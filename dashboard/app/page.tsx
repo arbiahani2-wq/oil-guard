@@ -119,8 +119,8 @@ export default function DashboardPage() {
       </div>
 
       {/* ── KPI Row (5 Cards like mockup) ── */}
-      <div className="flex xl:grid xl:grid-cols-5 gap-3 overflow-x-auto snap-x pb-4 -mx-4 px-4 sm:-mx-5 sm:px-5 xl:mx-0 xl:px-0 hide-scrollbar" style={{ scrollPaddingLeft: "16px" }}>
-        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start xl:w-auto xl:max-w-none">
+      <div className="flex lg:grid lg:grid-cols-5 gap-3 overflow-x-auto snap-x pb-4 -mx-4 px-4 sm:-mx-5 sm:px-5 lg:pb-0 lg:mx-0 lg:px-0 hide-scrollbar" style={{ scrollPaddingLeft: "16px" }}>
+        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start lg:w-auto lg:max-w-none">
           <MetricCard
             icon={AlertTriangle} label="ACTIVE ALERTS"
             value={activeAlerts.toString()}
@@ -128,7 +128,7 @@ export default function DashboardPage() {
             accent="var(--plasma)" pulse={activeAlerts > 0}
           />
         </div>
-        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start xl:w-auto xl:max-w-none">
+        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start lg:w-auto lg:max-w-none">
           <MetricCard
             icon={Waves} label="TOTAL SPILL AREA"
             value={`${formattedCurrentArea.value} ${formattedCurrentArea.unit}`}
@@ -136,7 +136,7 @@ export default function DashboardPage() {
             accent="var(--biolum)"
           />
         </div>
-        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start xl:w-auto xl:max-w-none">
+        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start lg:w-auto lg:max-w-none">
           <MetricCard
             icon={Crosshair} label="DETECTION CONFIDENCE"
             value="92%"
@@ -144,7 +144,7 @@ export default function DashboardPage() {
             accent="var(--signal-cyan)"
           />
         </div>
-        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start xl:w-auto xl:max-w-none">
+        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start lg:w-auto lg:max-w-none">
           <MetricCard
             icon={Building2} label="NEAREST INFRASTRUCTURE"
             value={`${nearestInfraDist} km`}
@@ -152,7 +152,7 @@ export default function DashboardPage() {
             accent="var(--amber)"
           />
         </div>
-        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start xl:w-auto xl:max-w-none">
+        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start lg:w-auto lg:max-w-none">
           <MetricCard
             icon={DollarSign} label="ESTIMATED CLEANUP COST"
             value={formattedCost}

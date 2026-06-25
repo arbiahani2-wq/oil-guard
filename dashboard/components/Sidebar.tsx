@@ -82,10 +82,11 @@ export default function Sidebar() {
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href;
           return (
-            <Link key={href} href={href} className={`nav-item flex-1 md:flex-none justify-center flex-col md:flex-row gap-1 md:gap-3 ${expanded ? "md:justify-start md:px-[14px]" : "md:px-0"} ${isActive ? "active" : ""}`}
+            <Link key={href} href={href} className={`nav-item flex-1 md:flex-none flex-col md:flex-row gap-1 ${isActive ? "active" : ""}`}
               title={!expanded ? label : undefined}
+              style={{ justifyContent: expanded ? "flex-start" : "center", paddingLeft: expanded ? 14 : 0, paddingRight: expanded ? 14 : 0 }}
             >
-              <Icon size={18} className="md:w-[17px] md:h-[17px] w-5 h-5" strokeWidth={isActive ? 2.5 : 2} style={{ flexShrink: 0 }} />
+              <Icon size={17} strokeWidth={isActive ? 2.5 : 2} style={{ flexShrink: 0 }} />
               {expanded && <span className="hidden md:block overflow-hidden whitespace-nowrap">{label}</span>}
               <span className="md:hidden text-[9px] font-display font-semibold tracking-wide opacity-80 mt-0.5">{label}</span>
             </Link>
@@ -122,10 +123,11 @@ export default function Sidebar() {
 
       {/* Settings */}
       <div className="md:p-[0_8px_16px] md:border-t md:border-[var(--wire)] md:pt-2 flex-1 md:flex-none flex justify-center md:block">
-        <Link href="/settings" className={`nav-item flex-1 md:flex-none justify-center flex-col md:flex-row gap-1 md:gap-3 ${expanded ? "md:justify-start md:px-[14px]" : "md:px-0"}`}
+        <Link href="/settings" className={`nav-item flex-1 md:flex-none flex-col md:flex-row gap-1`}
           title={!expanded ? "Settings" : undefined}
+          style={{ justifyContent: expanded ? "flex-start" : "center", paddingLeft: expanded ? 14 : 0, paddingRight: expanded ? 14 : 0 }}
         >
-          <Settings size={18} className="md:w-[17px] md:h-[17px] w-5 h-5" strokeWidth={2} style={{ flexShrink: 0 }} />
+          <Settings size={17} strokeWidth={2} style={{ flexShrink: 0 }} />
           {expanded && <span className="hidden md:block">Settings</span>}
           <span className="md:hidden text-[9px] font-display font-semibold tracking-wide opacity-80 mt-0.5">Settings</span>
         </Link>
