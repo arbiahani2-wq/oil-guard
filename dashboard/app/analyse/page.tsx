@@ -138,7 +138,7 @@ export default function AnalysePage() {
   const overallPct = finished ? 100 : Math.round((doneCount / INITIAL_STEPS.length) * 100);
 
   return (
-    <div style={{ maxWidth: 760, margin: "0 auto", display: "flex", flexDirection: "column", gap: 20 }}>
+    <div className="max-w-[760px] w-full mx-auto flex flex-col gap-5">
 
       {/* ── Header ── */}
       <div>
@@ -221,8 +221,8 @@ export default function AnalysePage() {
         <div className="glass-card-lit" style={{ overflow: "hidden" }}>
 
           {/* Header */}
-          <div style={{ padding: "16px 20px", borderBottom: "1px solid var(--wire)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div className="p-4 sm:p-[16px_20px] border-b border-[var(--wire)] flex flex-col sm:flex-row justify-between sm:items-center gap-3 sm:gap-0">
+            <div className="flex items-center gap-[10px]">
               {/* Pipeline icon */}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                 <circle cx="4"  cy="12" r="2.5" fill="var(--biolum)" opacity="0.8"/>
@@ -296,7 +296,7 @@ export default function AnalysePage() {
 
           {/* Success CTA */}
           {finished && reportId && (
-            <div style={{ padding: "16px 20px", borderTop: "1px solid var(--wire)", background: "rgba(0,230,118,0.05)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div className="p-4 sm:p-[16px_20px] border-t border-[var(--wire)] bg-[rgba(0,230,118,0.05)] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
               <div>
                 <div className="font-mono" style={{ fontSize: 10, fontWeight: 700, color: "var(--safe)", letterSpacing: "0.12em" }}>
                   MISSION COMPLETE

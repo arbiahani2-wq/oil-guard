@@ -49,32 +49,10 @@ export default function Sidebar() {
     <aside
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      style={{
-        width: expanded ? 228 : 64,
-        minWidth: expanded ? 228 : 64,
-        background: "var(--hull)",
-        borderRight: "1px solid var(--wire)",
-        display: "flex",
-        flexDirection: "column",
-        padding: 0,
-        zIndex: 100,
-        transition: "width 280ms cubic-bezier(0.22,1,0.36,1), min-width 280ms cubic-bezier(0.22,1,0.36,1)",
-        overflow: "hidden",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-        flexShrink: 0,
-      }}
+      className={`fixed bottom-0 w-full h-[60px] md:static md:h-auto z-[100] bg-[var(--hull)] border-t md:border-t-0 md:border-r border-[var(--wire)] flex flex-row md:flex-col overflow-hidden backdrop-blur-[20px] transition-[width,min-width] duration-280 shrink-0 ${expanded ? "md:w-[228px] md:min-w-[228px]" : "md:w-[64px] md:min-w-[64px]"}`}
     >
       {/* Logo */}
-      <div style={{
-        padding: "18px 16px",
-        borderBottom: "1px solid var(--wire)",
-        display: "flex",
-        alignItems: "center",
-        gap: 12,
-        height: 60,
-        flexShrink: 0,
-      }}>
+      <div className="hidden md:flex p-[18px_16px] border-b border-[var(--wire)] items-center gap-[12px] h-[60px] shrink-0">
         <div style={{
           width: 32, height: 32, flexShrink: 0, position: "relative",
           borderRadius: 8, overflow: "hidden",
@@ -95,21 +73,20 @@ export default function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav style={{ flex: 1, padding: "12px 8px", display: "flex", flexDirection: "column", gap: 2 }}>
+      <nav className="flex-1 md:flex-none md:flex-1 p-0 md:p-[12px_8px] flex flex-row md:flex-col justify-around md:justify-start gap-1 md:gap-2">
         {expanded && (
-          <div className="font-mono" style={{ marginBottom: 6, padding: "0 6px 6px", fontSize: 9, color: "var(--text-lo)", letterSpacing: "0.18em", fontWeight: 700 }}>
+          <div className="hidden md:block font-mono mb-[6px] p-[0_6px_6px] text-[9px] text-[var(--text-lo)] tracking-[0.18em] font-bold">
             NAVIGATION
           </div>
         )}
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href;
           return (
-            <Link key={href} href={href} className={`nav-item ${isActive ? "active" : ""}`}
+            <Link key={href} href={href} className={`nav-item flex-1 md:flex-none justify-center ${expanded ? "md:justify-start md:px-[14px]" : "md:px-0"} ${isActive ? "active" : ""}`}
               title={!expanded ? label : undefined}
-              style={{ justifyContent: expanded ? "flex-start" : "center", paddingLeft: expanded ? 14 : 0, paddingRight: expanded ? 14 : 0 }}
             >
               <Icon size={17} strokeWidth={2} style={{ flexShrink: 0 }} />
-              {expanded && <span style={{ overflow: "hidden", whiteSpace: "nowrap" }}>{label}</span>}
+              {expanded && <span className="hidden md:block overflow-hidden whitespace-nowrap">{label}</span>}
             </Link>
           );
         })}
@@ -117,14 +94,7 @@ export default function Sidebar() {
 
       {/* Alert Widget */}
       {alertStats !== null && alertStats.total > 0 && expanded && (
-        <div style={{
-          margin: "0 8px 8px",
-          padding: 12,
-          borderRadius: "var(--r-md)",
-          background: "var(--plasma-bg)",
-          border: "1px solid rgba(255,61,96,0.2)",
-          animation: "fade-up 0.4s ease both",
-        }}>
+        <div className="hidden md:block m-[0_8px_8px] p-3 rounded-[var(--r-md)] bg-[var(--plasma-bg)] border border-[rgba(255,61,96,0.2)] anim-fade-up">
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
             <span className="status-dot alert" />
             <span className="font-display" style={{ fontSize: 11, fontWeight: 700, color: "var(--plasma)" }}>
@@ -139,7 +109,7 @@ export default function Sidebar() {
 
       {/* Alert dot (collapsed) */}
       {alertStats !== null && alertStats.total > 0 && !expanded && (
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
+        <div className="hidden md:flex justify-center mb-3">
           <span className="anim-pulse-plasma" style={{
             width: 8, height: 8, borderRadius: "50%",
             background: "var(--plasma)",
@@ -150,13 +120,12 @@ export default function Sidebar() {
       )}
 
       {/* Settings */}
-      <div style={{ padding: "0 8px 16px", borderTop: "1px solid var(--wire)", paddingTop: 8, marginTop: 0 }}>
-        <Link href="/settings" className="nav-item"
+      <div className="md:p-[0_8px_16px] md:border-t md:border-[var(--wire)] md:pt-2 flex-1 md:flex-none flex justify-center md:block">
+        <Link href="/settings" className={`nav-item flex-1 md:flex-none justify-center ${expanded ? "md:justify-start md:px-[14px]" : "md:px-0"}`}
           title={!expanded ? "Settings" : undefined}
-          style={{ justifyContent: expanded ? "flex-start" : "center", paddingLeft: expanded ? 14 : 0, paddingRight: expanded ? 14 : 0 }}
         >
           <Settings size={17} strokeWidth={2} style={{ flexShrink: 0 }} />
-          {expanded && <span>Settings</span>}
+          {expanded && <span className="hidden md:block">Settings</span>}
         </Link>
       </div>
     </aside>
