@@ -49,7 +49,7 @@ export default function HistoriquePage() {
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
 
       {/* ── Header ── */}
-      <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-4">
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
         <div>
           <div className="font-mono" style={{ fontSize: 9, color: "var(--text-lo)", letterSpacing: "0.18em", marginBottom: 6 }}>OILGUARD / INTEL ARCHIVE</div>
           <h1 className="font-display" style={{ fontSize: 24, fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1 }}>Analysis History</h1>
@@ -66,7 +66,6 @@ export default function HistoriquePage() {
               placeholder="Search reports..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full sm:w-[200px]"
               style={{
                 background: "var(--hull)",
                 border: "1px solid var(--border-hi)",
@@ -76,6 +75,7 @@ export default function HistoriquePage() {
                 fontSize: 12,
                 fontFamily: "JetBrains Mono, monospace",
                 outline: "none",
+                width: 200,
                 transition: "border-color 200ms ease",
               }}
               onFocus={e => (e.target.style.borderColor = "var(--biolum)")}
@@ -86,7 +86,7 @@ export default function HistoriquePage() {
       </div>
 
       {/* ── Filter Pills ── */}
-      <div className="flex flex-wrap gap-2">
+      <div style={{ display: "flex", gap: 6 }}>
         {LEVELS.map(lvl => (
           <button key={lvl} onClick={() => setFilter(lvl)} style={{
             padding: "5px 12px",
@@ -124,7 +124,7 @@ export default function HistoriquePage() {
           <div style={{ fontSize: 13, color: "var(--text-mid)" }}>Upload a satellite image to begin logging detections</div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-3">
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 12 }}>
           {filtered.map((report, i) => {
             const lvl = report?.risk_report?.level || "LOW";
             const color = THREAT_COLOR[lvl] || "var(--biolum)";
