@@ -30,7 +30,14 @@ export default function OgimPage() {
   }, [query]);
 
   useEffect(() => {
-    fetch(`${API_URL}/ogim/stats`).then(r => r.json()).then(setStats).catch(() => {});
+    fetch(`${API_URL}/ogim/stats`)
+      .then(r => r.json())
+      .then(data => {
+        if (data && typeof data.total === 'number') {
+          setStats(data);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {

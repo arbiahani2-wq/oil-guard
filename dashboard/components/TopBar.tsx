@@ -104,16 +104,18 @@ export default function TopBar() {
       try {
         const res = await fetch(`${API_URL}/reports`);
         if (!res.ok) { setStatus("offline"); return; }
-        const data: any[] = await res.json();
-        const hasCritical = data.some(r => r?.risk_report?.level === "CRITICAL");
-        setStatus(hasCritical ? "alert" : "online");
-        if (data.length > 0) {
-          const r = data[0];
-          setLastDetection({
-            lat: (r.center_lat || 0).toFixed(4),
-            lon: (r.center_lon || 0).toFixed(4),
-            id: r.id,
-          });
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          const hasCritical = data.some(r => r?.risk_report?.level === "CRITICAL");
+          setStatus(hasCritical ? "alert" : "online");
+          if (data.length > 0) {
+            const r = data[0];
+            setLastDetection({
+              lat: (r.center_lat || 0).toFixed(4),
+              lon: (r.center_lon || 0).toFixed(4),
+              id: r.id,
+            });
+          }
         }
       } catch { setStatus("offline"); }
     }

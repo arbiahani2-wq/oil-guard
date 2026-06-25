@@ -37,8 +37,17 @@ export default function DashboardPage() {
     async function fetchReports() {
       try {
         const res = await fetch(`${API_URL}/reports`);
-        if (res.ok) setReports(await res.json());
-      } catch { /* silent */ } finally { setLoading(false); }
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            setReports(data);
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchReports();
   }, []);

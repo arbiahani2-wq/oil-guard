@@ -54,12 +54,13 @@ export default function RapportPage() {
   const { formatArea } = useSettings();
   const params = useParams();
   const router = useRouter();
-  const id = params.id as string;
+  const id = params?.id as string;
   const [report, setReport]   = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error,   setError]   = useState<string | null>(null);
 
   useEffect(() => {
+    if (!id) return;
     async function fetchReport() {
       try {
         const res = await fetch(`${API_URL}/reports/${id}`);
