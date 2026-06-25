@@ -279,7 +279,7 @@ export default function LiveMap({ centerLat = 35.5, centerLon = 34.8, geojsonUrl
       {/* Map content */}
       <div style={{ width: "100%", height: "100%", marginTop: 45, position: "relative" }}>
         <MapContainer 
-          center={[centerLat, centerLon]} 
+          center={[Number(centerLat ?? 0), Number(centerLon ?? 0)]} 
           zoom={10} 
           style={{ width: "100%", height: "calc(100% - 45px)", background: basemap === "light" || basemap === "normal" ? "#f4f6f9" : "#0a101e" }}
           zoomControl={false}
@@ -329,31 +329,38 @@ export default function LiveMap({ centerLat = 35.5, centerLon = 34.8, geojsonUrl
           )}
 
           {/* Infrastructure Platforms */}
-          {layers.platforms && infrastructures.map((inf, idx) => (
-            <Marker key={`inf-${idx}`} position={[inf.latitude, inf.longitude]} icon={platformIcon as L.Icon}>
-              <Popup>
-                <div style={{ color: "#000" }}>
-                  <strong>{inf.name}</strong><br/>
-                  Type: {inf.type}<br/>
-                  Distance to spill: {inf.distance_km} km
-                </div>
-              </Popup>
-            </Marker>
-          ))}
+          {layers.platforms && infrastructures.map((inf, idx) => {
+            const lat = inf.latitude ?? (inf as any).lat;
+            const lon = inf.longitude ?? (inf as any).lon;
+            if (lat == null || lon == null) return null;
+            return (
+              <Marker key={`inf-${idx}`} position={[lat, lon]} icon={platformIcon as L.Icon}>
+                <Popup>
+                  <div style={{ color: "#000" }}>
+                    <strong>{inf.name}</strong><br/>
+                    Type: {inf.type}<br/>
+                    Distance to spill: {inf.distance_km} km
+                  </div>
+                </Popup>
+              </Marker>
+            );
+          })}
 
           {/* AIS Ships */}
-          {layers.ais && ships.map((ship) => (
-            <Marker key={ship.id} position={[ship.lat, ship.lon]} icon={shipIcon as L.Icon}>
-              <Popup>
-                <div style={{ color: "#000" }}>
-                  <strong>{ship.name || `MMSI: ${ship.mmsi}`}</strong><br/>
-                  Speed: {ship.speed} kn<br/>
-                  Heading: {typeof ship.heading === 'number' ? ship.heading.toFixed(0) : ship.heading}°<br/>
-                  Status: {ship.status || "Unknown"}
-                </div>
-              </Popup>
-            </Marker>
-          ))}
+          {layers.ais && ships.map((ship) => {
+            if (ship.latitude == null || ship.longitude == null) return null;
+            return (
+              <Marker key={ship.mmsi} position={[ship.latitude, ship.longitude]} icon={shipIcon as L.Icon}>
+                <Popup>
+                  <div style={{ color: "#000" }}>
+                    <strong>Ship MMSI: {ship.mmsi}</strong><br/>
+                    Speed: {(ship.sog || 0).toFixed(1)} kn<br/>
+                    Heading: {typeof ship.heading === 'number' ? ship.heading.toFixed(0) : ship.heading}°<br/>
+                  </div>
+                </Popup>
+              </Marker>
+            );
+          })}
         </MapContainer>
 
         {/* Floating Basemap Selector */}
