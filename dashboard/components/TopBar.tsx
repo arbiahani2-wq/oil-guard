@@ -29,11 +29,11 @@ function UtcClock() {
         <circle cx="12" cy="12" r="4.5" stroke="var(--biolum)" strokeWidth="0.7" opacity="0.3" />
       </svg>
       <div>
-        <div className="font-mono" style={{ fontSize: 13, color: "var(--text-hi)", letterSpacing: "0.05em", lineHeight: 1 }}>
+        <div className="font-mono text-[13px] text-[var(--text-hi)] tracking-[0.05em] leading-none">
           {time}
-          <span className="anim-blink" style={{ color: "var(--biolum)", marginLeft: 2 }}>_</span>
+          <span className="anim-blink text-[var(--biolum)] ml-[2px]">_</span>
         </div>
-        <div className="font-mono" style={{ fontSize: 9, color: "var(--text-lo)", letterSpacing: "0.12em", marginTop: 2 }}>
+        <div className="font-mono text-[9px] text-[var(--text-lo)] tracking-[0.12em] mt-[2px] hidden sm:block">
           {date} · UTC
         </div>
       </div>
@@ -143,25 +143,24 @@ export default function TopBar() {
     }}>
 
       {/* Left — Mission label */}
-      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+      <div className="flex items-center gap-4">
+        <div className="flex gap-[6px] items-center">
           <svg width="16" height="12" viewBox="0 0 32 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1 12 C4 4, 8 4, 8 12 C8 20, 12 20, 12 12 C12 4, 16 4, 16 12 C16 20, 20 20, 20 12 C20 4, 24 4, 24 12 C24 20, 28 20, 28 12 C28 4, 31 4, 31 12"
               stroke="var(--biolum)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
           </svg>
-          <span className="font-mono" style={{ fontSize: 10, color: "var(--text-mid)", letterSpacing: "0.15em" }}>
+          <span className="font-mono hidden sm:inline" style={{ fontSize: 10, color: "var(--text-mid)", letterSpacing: "0.15em" }}>
             MISSION
           </span>
         </div>
-        <span className="font-display" style={{ fontSize: 12, fontWeight: 700, color: "var(--text-hi)", letterSpacing: "0.06em" }}>
+        <span className="font-display hidden md:inline" style={{ fontSize: 12, fontWeight: 700, color: "var(--text-hi)", letterSpacing: "0.06em" }}>
           MEDITERRANEAN OIL SURVEILLANCE · SENTINEL-1 SAR
         </span>
       </div>
 
       {/* Center — Last known detection coordinates */}
       {lastDetection && (
-        <div style={{
-          display: "flex", alignItems: "center", gap: 10,
+        <div className="hidden lg:flex items-center gap-[10px]" style={{
           background: "var(--biolum-dim)",
           border: "1px solid var(--wire)",
           borderRadius: "var(--r-sm)",
@@ -186,17 +185,16 @@ export default function TopBar() {
       )}
 
       {/* Right — System status + Clock + Theme Toggle */}
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <div className="flex items-center gap-2 sm:gap-3">
         <UtcClock />
-        <div style={{
-          display: "flex", alignItems: "center", gap: 8,
+        <div className="hidden sm:flex items-center gap-2" style={{
           background: status === "alert" ? "var(--plasma-bg)" : "var(--biolum-dim)",
           border: `1px solid ${status === "alert" ? "var(--plasma-border)" : "var(--wire)"}`,
           borderRadius: "var(--r-sm)",
           padding: "5px 12px",
         }}>
           <span className={`status-dot ${status === "alert" ? "alert" : status === "online" ? "online" : ""}`} />
-          <span className="font-mono" style={{ fontSize: 10, fontWeight: 700, color: s.color, letterSpacing: "0.12em" }}>
+          <span className="font-mono hidden md:inline" style={{ fontSize: 10, fontWeight: 700, color: s.color, letterSpacing: "0.12em" }}>
             SYSTEM {s.label}
           </span>
         </div>
