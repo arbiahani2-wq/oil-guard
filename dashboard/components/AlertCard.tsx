@@ -89,13 +89,13 @@ export default function AlertCard({ id, riskLevel, areakm2, lat, lon, timestamp,
 
         {/* Coordinates */}
         <div className="font-mono" style={{ fontSize: 11, color: "var(--text-mid)", letterSpacing: "0.04em" }}>
-          {lat.toFixed(4)}°N · {lon.toFixed(4)}°E
+          {Number(lat).toFixed(4)}°N · {Number(lon).toFixed(4)}°E
         </div>
 
         {/* Infrastructure + chevron */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <span style={{ fontSize: 11, color: "var(--text-lo)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "75%" }}>
-            ↳ {nearestInfra} · {distanceKm.toFixed(1)} km
+            ↳ {nearestInfra} · {Number(distanceKm).toFixed(1)} km
           </span>
           <ChevronRight size={12} color="var(--text-lo)" />
         </div>

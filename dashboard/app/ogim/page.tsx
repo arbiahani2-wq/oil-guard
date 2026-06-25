@@ -187,7 +187,7 @@ export default function OgimPage() {
                       {inf.operator} · {inf.country}
                     </div>
                     <div className="font-mono" style={{ fontSize: 10, color: "var(--text-lo)", marginTop: 4, display: "flex", alignItems: "center", gap: 4 }}>
-                      <MapPin size={9} /> {inf.lat.toFixed(3)}°N, {inf.lon.toFixed(3)}°E
+                      <MapPin size={9} /> {Number(inf.lat).toFixed(3)}°N, {Number(inf.lon).toFixed(3)}°E
                     </div>
                   </div>
                 );
@@ -223,7 +223,7 @@ export default function OgimPage() {
 
               <div className="max-md:!grid-cols-2" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10, marginTop: 16 }}>
                 {[
-                  { label: "Coordinates",   value: `${selected.lat.toFixed(4)}°N\n${selected.lon.toFixed(4)}°E`, icon: <MapPin size={11} /> },
+                  { label: "Coordinates",   value: `${Number(selected.lat).toFixed(4)}°N\n${Number(selected.lon).toFixed(4)}°E`, icon: <MapPin size={11} /> },
                   { label: "Facility Type", value: selected.fac_type || "N/A", icon: <Factory size={11} /> },
                   { label: "Commodity",     value: selected.commodity || "N/A", icon: <Fuel size={11} /> },
                   { label: "Installed",     value: selected.install_date || "N/A", icon: <Anchor size={11} /> },
