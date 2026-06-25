@@ -75,6 +75,35 @@ def download_model_if_missing():
 # Trigger model download immediately on startup/import
 download_model_if_missing()
 
+def download_ogim_if_missing():
+    ogim_path = r"data/ogim/OGIM_v2.7.gpkg"
+    if os.path.exists(ogim_path):
+        return
+        
+    ogim_url = os.getenv("OGIM_URL", "https://huggingface.co/datasets/haniy5/ogim-database/resolve/main/OGIM_v2.7.gpkg")
+    logging.info(f"OGIM database not found. Downloading from {ogim_url}...")
+    try:
+        import requests
+        os.makedirs(os.path.dirname(ogim_path), exist_ok=True)
+        
+        headers = {}
+        hf_token = os.getenv("HF_TOKEN")
+        if hf_token:
+            headers["Authorization"] = f"Bearer {hf_token}"
+            
+        response = requests.get(ogim_url, stream=True, headers=headers)
+        response.raise_for_status()
+        
+        with open(ogim_path, "wb") as f:
+            for chunk in response.iter_content(chunk_size=8192*100):
+                if chunk:
+                    f.write(chunk)
+        logging.info("OGIM database downloaded successfully!")
+    except Exception as e:
+        logging.error(f"Failed to download OGIM database from {ogim_url}: {e}")
+
+download_ogim_if_missing()
+
 # In-memory cache for OGIM Mediterranean data (loaded once on first request)
 _ogim_cache = None
 OGIM_PATH = get_ogim_path()
