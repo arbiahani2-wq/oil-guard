@@ -30,7 +30,12 @@ export default function HistoriquePage() {
     async function fetch_() {
       try {
         const res = await fetch(`${API_URL}/reports`);
-        if (res.ok) setReports(await res.json());
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            setReports(data);
+          }
+        }
       } catch { /* silent */ } finally { setLoading(false); }
     }
     fetch_();

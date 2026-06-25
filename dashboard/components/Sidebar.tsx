@@ -27,11 +27,18 @@ export default function Sidebar() {
       try {
         const res = await fetch(`${API_URL}/reports`);
         if (!res.ok) return;
-        const data: any[] = await res.json();
-        const critical = data.filter(r => r?.risk_report?.level === "CRITICAL").length;
-        const high     = data.filter(r => r?.risk_report?.level === "HIGH").length;
-        setAlertStats({ critical, high, total: critical + high });
-      } catch { /* silent */ }
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          const alerts = data.filter(r => r.risk_report?.level === "CRITICAL" || r.risk_report?.level === "HIGH");
+          setAlertStats({
+            total: alerts.length,
+            critical: alerts.filter(r => r.risk_report?.level === "CRITICAL").length,
+            high: alerts.filter(r => r.risk_report?.level === "HIGH").length,
+          });
+        }
+      } catch (e) {
+        console.error(e);
+      }
     }
     fetchAlerts();
   }, []);
