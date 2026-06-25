@@ -18,3 +18,4 @@ torchvision
 matplotlib
 scikit-image
 fpdf2
+pandas
