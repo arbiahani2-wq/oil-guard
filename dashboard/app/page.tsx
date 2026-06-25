@@ -100,7 +100,7 @@ export default function DashboardPage() {
     <div style={{ display: "flex", flexDirection: "column", gap: 20, position: "relative" }}>
 
       {/* ── Page Header ── */}
-      <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-4">
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
         <div>
           <div className="font-mono" style={{ fontSize: 9, color: "var(--text-lo)", letterSpacing: "0.18em", marginBottom: 6 }}>
             MISSION MEDITERRANEAN OIL SURVEILLANCE - SENTINEL-1 SAR
@@ -110,7 +110,7 @@ export default function DashboardPage() {
           </h1>
         </div>
         <Link href="/analyse">
-          <button className="btn-primary w-full sm:w-auto" style={{ gap: 8 }}>
+          <button className="btn-primary" style={{ gap: 8 }}>
             <Waves size={15} />
             Launch Analysis
             <ArrowRight size={14} />
@@ -119,51 +119,41 @@ export default function DashboardPage() {
       </div>
 
       {/* ── KPI Row (5 Cards like mockup) ── */}
-      <div className="flex lg:grid lg:grid-cols-5 gap-3 overflow-x-auto snap-x pb-4 -mx-4 px-4 sm:-mx-5 sm:px-5 lg:pb-0 lg:mx-0 lg:px-0 hide-scrollbar" style={{ scrollPaddingLeft: "16px" }}>
-        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start lg:w-auto lg:max-w-none">
-          <MetricCard
-            icon={AlertTriangle} label="ACTIVE ALERTS"
-            value={activeAlerts.toString()}
-            sub={`${criticalCount} Critical · ${highCount} High`}
-            accent="var(--plasma)" pulse={activeAlerts > 0}
-          />
-        </div>
-        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start lg:w-auto lg:max-w-none">
-          <MetricCard
-            icon={Waves} label="TOTAL SPILL AREA"
-            value={`${formattedCurrentArea.value} ${formattedCurrentArea.unit}`}
-            sub="Latest detection"
-            accent="var(--biolum)"
-          />
-        </div>
-        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start lg:w-auto lg:max-w-none">
-          <MetricCard
-            icon={Crosshair} label="DETECTION CONFIDENCE"
-            value="92%"
-            sub="High Confidence"
-            accent="var(--signal-cyan)"
-          />
-        </div>
-        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start lg:w-auto lg:max-w-none">
-          <MetricCard
-            icon={Building2} label="NEAREST INFRASTRUCTURE"
-            value={`${nearestInfraDist} km`}
-            sub={`Closest Platform (${nearestInfraName})`}
-            accent="var(--amber)"
-          />
-        </div>
-        <div className="w-[85vw] max-w-[280px] shrink-0 snap-start lg:w-auto lg:max-w-none">
-          <MetricCard
-            icon={DollarSign} label="ESTIMATED CLEANUP COST"
-            value={formattedCost}
-            sub="Initial Estimate"
-            accent="var(--safe)"
-          />
-        </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12 }}>
+        <MetricCard
+          icon={AlertTriangle} label="ACTIVE ALERTS"
+          value={activeAlerts.toString()}
+          sub={`${criticalCount} Critical · ${highCount} High`}
+          accent="var(--plasma)" pulse={activeAlerts > 0}
+        />
+        <MetricCard
+          icon={Waves} label="TOTAL SPILL AREA"
+          value={`${formattedCurrentArea.value} ${formattedCurrentArea.unit}`}
+          sub="Latest detection"
+          accent="var(--biolum)"
+        />
+        <MetricCard
+          icon={Crosshair} label="DETECTION CONFIDENCE"
+          value="92%"
+          sub="High Confidence"
+          accent="var(--signal-cyan)"
+        />
+        <MetricCard
+          icon={Building2} label="NEAREST INFRASTRUCTURE"
+          value={`${nearestInfraDist} km`}
+          sub={`Closest Platform (${nearestInfraName})`}
+          accent="var(--amber)"
+        />
+        <MetricCard
+          icon={DollarSign} label="ESTIMATED CLEANUP COST"
+          value={formattedCost}
+          sub="Initial Estimate"
+          accent="var(--safe)"
+        />
       </div>
 
       {/* ── Main Layout: Left (Map + Chart) / Right (Sidebar) ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-3">
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 12 }}>
 
         {/* LEFT COLUMN */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>

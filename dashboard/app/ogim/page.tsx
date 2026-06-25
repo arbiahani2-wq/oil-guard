@@ -58,7 +58,7 @@ export default function OgimPage() {
     <div style={{ display: "flex", flexDirection: "column", gap: 18, height: "calc(100dvh - 120px)" }}>
 
       {/* ── Header ── */}
-      <div className="flex flex-col md:flex-row md:justify-between md:items-end flex-wrap gap-3 shrink-0">
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12, flexShrink: 0 }}>
         <div>
           <div className="font-mono" style={{ fontSize: 9, color: "var(--text-lo)", letterSpacing: "0.18em", marginBottom: 6 }}>OILGUARD / OGIM DATABASE</div>
           <h1 className="font-display" style={{ fontSize: 24, fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1 }}>
@@ -70,7 +70,7 @@ export default function OgimPage() {
         </div>
 
         {/* Stats mini-panel */}
-        <div className="flex gap-[1px] overflow-hidden rounded-[var(--r-md)] border border-[var(--wire)] self-start md:self-auto">
+        <div style={{ display: "flex", gap: 1, overflow: "hidden", borderRadius: "var(--r-md)", border: "1px solid var(--wire)" }}>
           {[
             { label: "TOTAL",     value: stats.total,     color: "var(--biolum)", icon: <Building2 size={11} /> },
             { label: "PLATFORMS", value: stats.platforms,  color: "var(--ember)",  icon: <Factory size={11} /> },
@@ -90,7 +90,7 @@ export default function OgimPage() {
       </div>
 
       {/* ── Controls ── */}
-      <div className="flex flex-wrap gap-2 items-center shrink-0">
+      <div style={{ display: "flex", gap: 8, alignItems: "center", flexShrink: 0 }}>
         <div style={{ position: "relative" }}>
           <Search size={13} color="var(--text-lo)" style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }} />
           <input
@@ -102,7 +102,7 @@ export default function OgimPage() {
               background: "var(--hull)", border: "1px solid var(--wire-strong)",
               borderRadius: "var(--r-sm)", padding: "8px 32px 8px 30px",
               color: "var(--text-hi)", fontSize: 12,
-              fontFamily: "JetBrains Mono, monospace", outline: "none",
+              fontFamily: "JetBrains Mono, monospace", outline: "none", width: 280,
               transition: "border-color 200ms ease",
             }}
             onFocus={e  => (e.target.style.borderColor = "var(--biolum)")}
@@ -133,10 +133,10 @@ export default function OgimPage() {
       </div>
 
       {/* ── Main content ── */}
-      <div className="flex flex-col md:flex-row gap-3 flex-1 min-h-0">
+      <div style={{ display: "flex", gap: 12, flex: 1, minHeight: 0 }}>
 
         {/* List */}
-        <div className="glass-card w-full md:w-[300px] shrink-0 flex flex-col overflow-hidden max-h-[40vh] md:max-h-none">
+        <div className="glass-card" style={{ width: 300, flexShrink: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}>
           <div style={{ padding: "10px 14px", borderBottom: "1px solid var(--wire)", flexShrink: 0 }}>
             <div className="font-mono" style={{ fontSize: 9, color: "var(--text-lo)", letterSpacing: "0.14em" }}>
               SHOWING {infrastructure.length} RECORDS
@@ -213,7 +213,7 @@ export default function OgimPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-4">
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10, marginTop: 16 }}>
                 {[
                   { label: "Coordinates",   value: `${selected.lat.toFixed(4)}°N\n${selected.lon.toFixed(4)}°E`, icon: <MapPin size={11} /> },
                   { label: "Facility Type", value: selected.fac_type || "N/A", icon: <Factory size={11} /> },

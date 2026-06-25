@@ -39,7 +39,7 @@ export default function SettingsPage() {
     <div style={{ maxWidth: 1000, margin: "0 auto", display: "flex", flexDirection: "column", gap: 24 }}>
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4">
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
         <div>
           <div className="font-mono" style={{ fontSize: 9, color: "var(--text-lo)", letterSpacing: "0.18em", marginBottom: 6 }}>
             SYSTEM CONFIGURATION
@@ -74,7 +74,7 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-6 items-start">
+      <div style={{ display: "grid", gridTemplateColumns: "240px 1fr", gap: 24, alignItems: "start" }}>
         
         {/* Sidebar Tabs */}
         <div className="glass-card" style={{ padding: 8, display: "flex", flexDirection: "column", gap: 4 }}>
@@ -157,7 +157,7 @@ export default function SettingsPage() {
                   {/* Pollution Spill Area thresholds */}
                   <div style={{ marginBottom: 20 }}>
                     <h4 className="font-display" style={{ fontSize: 12, fontWeight: 600, color: "var(--text-hi)", marginBottom: 10 }}>Pollution Spill Area (km²)</h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
                       <div>
                         <div style={{ marginBottom: 4 }}>
                           <span className="font-mono" style={{ fontSize: 10, color: "var(--text-lo)" }}>Medium Threshold</span>
@@ -209,7 +209,7 @@ export default function SettingsPage() {
                   {/* Infrastructure Proximity thresholds */}
                   <div style={{ marginBottom: 20 }}>
                     <h4 className="font-display" style={{ fontSize: 12, fontWeight: 600, color: "var(--text-hi)", marginBottom: 10 }}>Infrastructure Proximity (km)</h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
                       <div>
                         <div style={{ marginBottom: 4 }}>
                           <span className="font-mono" style={{ fontSize: 10, color: "var(--text-lo)" }}>Medium Threshold</span>
@@ -261,7 +261,7 @@ export default function SettingsPage() {
                   {/* Coastline Proximity thresholds */}
                   <div>
                     <h4 className="font-display" style={{ fontSize: 12, fontWeight: 600, color: "var(--text-hi)", marginBottom: 10 }}>Coastline Proximity (km)</h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                       <div>
                         <div style={{ marginBottom: 4 }}>
                           <span className="font-mono" style={{ fontSize: 10, color: "var(--text-lo)" }}>Warning Threshold</span>
@@ -324,7 +324,7 @@ export default function SettingsPage() {
                 
                 <div>
                   <div className="font-display" style={{ fontSize: 13, fontWeight: 600, color: "var(--text-hi)", marginBottom: 12 }}>Minimum Alert Level</div>
-                  <div className="flex flex-wrap gap-2 sm:gap-3">
+                  <div style={{ display: "flex", gap: 12 }}>
                     {["CRITICAL", "HIGH", "MEDIUM", "LOW"].map(level => (
                       <button
                         key={level}
@@ -359,7 +359,7 @@ export default function SettingsPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                 <div>
                   <div className="font-display" style={{ fontSize: 13, fontWeight: 600, color: "var(--text-hi)", marginBottom: 12 }}>Area Units</div>
-                  <div className="flex flex-wrap gap-2 sm:gap-3">
+                  <div style={{ display: "flex", gap: 12 }}>
                     {[
                       { id: "km2", label: "Square Kilometers (km²)" },
                       { id: "mi2", label: "Square Miles (mi²)" },

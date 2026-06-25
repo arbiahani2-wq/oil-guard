@@ -109,7 +109,7 @@ export default function RapportPage() {
           <ArrowLeft size={13} /> Back
         </button>
 
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 sm:gap-0">
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
           <div>
             <div className="font-mono" style={{ fontSize: 9, color: "var(--text-lo)", letterSpacing: "0.18em", marginBottom: 6 }}>
               OILGUARD / MISSION DEBRIEF
@@ -121,7 +121,7 @@ export default function RapportPage() {
               REF: {report.id} · {report.image_path ? report.image_path.split("/").pop()?.split("\\").pop() : "Unknown"}
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div style={{ display: "flex", gap: 8 }}>
             <a href={`${API_URL}${report.pdf_url}`} target="_blank" rel="noreferrer">
               <button className="btn-ghost"><Download size={13} /> PDF</button>
             </a>
@@ -158,7 +158,7 @@ export default function RapportPage() {
           </div>
 
           {/* Row 2: 4 stat cards in even grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
             {/* Infra Risk */}
             <div style={{
               background: "var(--sonar)",
@@ -217,7 +217,14 @@ export default function RapportPage() {
 
           {/* Row 3: Environmental & Weather Data */}
           {report?.risk_report && (
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-4 pt-4 border-t border-[var(--border)]">
+            <div style={{ 
+              marginTop: 16, 
+              paddingTop: 16, 
+              borderTop: "1px solid var(--border)",
+              display: "grid", 
+              gridTemplateColumns: "repeat(4, 1fr)", 
+              gap: 12 
+            }}>
               {/* Cleanup Cost */}
               <div style={{
                 background: "var(--sonar)",
@@ -305,7 +312,7 @@ export default function RapportPage() {
       </div>
 
       {/* ── Two-col: Spills + Infra ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
 
         {/* Spill Zones Table */}
         <div className="glass-card" style={{ overflow: "hidden" }}>
