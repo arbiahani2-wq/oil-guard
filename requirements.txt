@@ -16,3 +16,5 @@ segmentation-models-pytorch
 torch
 torchvision
 matplotlib
+scikit-image
+fpdf2
