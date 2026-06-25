@@ -1,0 +1,2 @@
+dashboard/public/logo.png filter=lfs diff=lfs merge=lfs -text
+data/ogim/OGIM_mediterranean.gpkg filter=lfs diff=lfs merge=lfs -text

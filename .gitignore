@@ -1,0 +1,44 @@
+# ── Python ──────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.local
+venv/
+.venv/
+*.egg-info/
+
+# ── Large data files & Local databases ──
+data/ogim/
+data/raw/
+data/patches/
+data/models/
+outputs/
+*.tif
+*.tiff
+*.h5
+*.hdf5
+
+# ── Model weights ──
+*.pth
+*.pt
+*.ckpt
+
+# ── Next.js ──────────────────────────────
+dashboard/.next/
+dashboard/node_modules/
+dashboard/.env.local
+dashboard/out/
+dashboard/app_backup_20260623/
+dashboard/components_backup_20260623/
+dashboard/AGENTS.md
+dashboard/CLAUDE.md
+
+# ── Misc ─────────────────────────────────
+/logo.png
+*.docx
+notebooks/
+*.log
+.DS_Store
+Thumbs.db
