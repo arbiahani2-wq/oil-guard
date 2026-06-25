@@ -26,6 +26,7 @@ pipeline = None
 # Helper to find available OGIM candidate paths
 def get_ogim_path():
     candidates = [
+        r"data/ogim/OGIM_lite.csv.gz",
         r"data/ogim/OGIM_v2.7.gpkg",
         r"data/ogim/OGIM_mediterranean.gpkg",
         r"data\ogim\OGIM_v2.7.gpkg",
