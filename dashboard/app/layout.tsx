@@ -14,12 +14,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body style={{ display: "flex", height: "100dvh", overflow: "hidden", background: "var(--void)" }}>
+      <body className="max-md:!flex-col" style={{ display: "flex", height: "100dvh", overflow: "hidden", background: "var(--void)" }}>
         <SettingsProvider>
           <Sidebar />
           <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
             <TopBar />
-            <main style={{ flex: 1, overflowY: "auto", padding: "20px 24px" }}>
+            <main className="max-md:!p-3" style={{ flex: 1, overflowY: "auto", padding: "20px 24px" }}>
               {children}
             </main>
           </div>

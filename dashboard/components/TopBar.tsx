@@ -128,7 +128,7 @@ export default function TopBar() {
   const s = statusMap[status];
 
   return (
-    <header style={{
+    <header className="max-md:!flex-col max-md:!items-start max-md:!gap-3 max-md:!h-auto max-md:!py-3" style={{
       height: 50,
       background: "var(--hull)",
       backdropFilter: "blur(20px)",
@@ -160,7 +160,7 @@ export default function TopBar() {
 
       {/* Center — Last known detection coordinates */}
       {lastDetection && (
-        <div style={{
+        <div className="max-md:!hidden" style={{
           display: "flex", alignItems: "center", gap: 10,
           background: "var(--biolum-dim)",
           border: "1px solid var(--wire)",
