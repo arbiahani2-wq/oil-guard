@@ -160,7 +160,7 @@ export default function TopBar() {
 
       {/* Center — Last known detection coordinates */}
       {lastDetection && (
-        <div className="hidden lg:flex items-center gap-[10px]" style={{
+        <div className="hidden md:flex items-center gap-[10px]" style={{
           background: "var(--biolum-dim)",
           border: "1px solid var(--wire)",
           borderRadius: "var(--r-sm)",
