@@ -55,10 +55,10 @@ export default function OgimPage() {
     : `https://www.openstreetmap.org/export/embed.html?bbox=14,30,42,42&layer=mapnik`;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 18, height: "calc(100dvh - 120px)" }}>
+    <div className="max-md:!h-auto max-md:!min-h-[calc(100dvh-120px)]" style={{ display: "flex", flexDirection: "column", gap: 18, height: "calc(100dvh - 120px)" }}>
 
       {/* ── Header ── */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12, flexShrink: 0 }}>
+      <div className="max-md:!flex-col max-md:!items-start max-md:!gap-4" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12, flexShrink: 0 }}>
         <div>
           <div className="font-mono" style={{ fontSize: 9, color: "var(--text-lo)", letterSpacing: "0.18em", marginBottom: 6 }}>OILGUARD / OGIM DATABASE</div>
           <h1 className="font-display" style={{ fontSize: 24, fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1 }}>
@@ -90,7 +90,7 @@ export default function OgimPage() {
       </div>
 
       {/* ── Controls ── */}
-      <div style={{ display: "flex", gap: 8, alignItems: "center", flexShrink: 0 }}>
+      <div className="max-md:!flex-wrap max-md:!gap-4" style={{ display: "flex", gap: 8, alignItems: "center", flexShrink: 0 }}>
         <div style={{ position: "relative" }}>
           <Search size={13} color="var(--text-lo)" style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }} />
           <input
@@ -105,6 +105,7 @@ export default function OgimPage() {
               fontFamily: "JetBrains Mono, monospace", outline: "none", width: 280,
               transition: "border-color 200ms ease",
             }}
+            className="max-md:!w-full"
             onFocus={e  => (e.target.style.borderColor = "var(--biolum)")}
             onBlur={e   => (e.target.style.borderColor = "var(--wire-strong)")}
           />
@@ -133,10 +134,10 @@ export default function OgimPage() {
       </div>
 
       {/* ── Main content ── */}
-      <div style={{ display: "flex", gap: 12, flex: 1, minHeight: 0 }}>
+      <div className="max-md:!flex-col" style={{ display: "flex", gap: 12, flex: 1, minHeight: 0 }}>
 
         {/* List */}
-        <div className="glass-card" style={{ width: 300, flexShrink: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <div className="glass-card max-md:!w-full max-md:!h-[350px] max-md:!flex-none" style={{ width: 300, flexShrink: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}>
           <div style={{ padding: "10px 14px", borderBottom: "1px solid var(--wire)", flexShrink: 0 }}>
             <div className="font-mono" style={{ fontSize: 9, color: "var(--text-lo)", letterSpacing: "0.14em" }}>
               SHOWING {infrastructure.length} RECORDS
@@ -213,7 +214,7 @@ export default function OgimPage() {
                 </div>
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10, marginTop: 16 }}>
+              <div className="max-md:!grid-cols-2" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10, marginTop: 16 }}>
                 {[
                   { label: "Coordinates",   value: `${selected.lat.toFixed(4)}°N\n${selected.lon.toFixed(4)}°E`, icon: <MapPin size={11} /> },
                   { label: "Facility Type", value: selected.fac_type || "N/A", icon: <Factory size={11} /> },
@@ -233,7 +234,7 @@ export default function OgimPage() {
           )}
 
           {/* Map */}
-          <div className="glass-card" style={{ flex: 1, overflow: "hidden", display: "flex", flexDirection: "column", minHeight: 0 }}>
+          <div className="glass-card max-md:!min-h-[400px] max-md:!flex-none" style={{ flex: 1, overflow: "hidden", display: "flex", flexDirection: "column", minHeight: 0 }}>
             <div style={{ padding: "10px 16px", borderBottom: "1px solid var(--wire)", display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0 }}>
               <div className="font-display" style={{ fontSize: 13, fontWeight: 700 }}>
                 {selected ? `Location — ${selected.name}` : "Mediterranean Overview"}
