@@ -80,7 +80,7 @@ export default function Sidebar() {
           borderRadius: 8, overflow: "hidden",
           boxShadow: "0 0 12px rgba(0,255,200,0.35)",
         }}>
-          <Image src="/logo.png" alt="OilGuard Logo" fill style={{ objectFit: "cover" }} />
+          <Image src="/oilguard-logo.png" alt="OilGuard Logo" fill style={{ objectFit: "cover" }} />
         </div>
         {expanded && (
           <div style={{ overflow: "hidden", whiteSpace: "nowrap" }}>
