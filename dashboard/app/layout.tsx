@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Sidebar />
           <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
             <TopBar />
-            <main className="max-md:!p-3" style={{ flex: 1, overflowY: "auto", padding: "20px 24px" }}>
+            <main className="max-md:!p-3 max-md:!pb-20" style={{ flex: 1, overflowY: "auto", padding: "20px 24px" }}>
               {children}
             </main>
           </div>
