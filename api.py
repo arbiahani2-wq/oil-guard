@@ -55,7 +55,13 @@ def download_model_if_missing():
     try:
         import requests
         os.makedirs(os.path.dirname(model_path), exist_ok=True)
-        response = requests.get(model_url, stream=True)
+        
+        headers = {}
+        hf_token = os.getenv("HF_TOKEN")
+        if hf_token:
+            headers["Authorization"] = f"Bearer {hf_token}"
+            
+        response = requests.get(model_url, headers=headers, stream=True)
         response.raise_for_status()
         with open(model_path, "wb") as f:
             for chunk in response.iter_content(chunk_size=8192):
