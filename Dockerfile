@@ -24,6 +24,15 @@ COPY . .
 # Create required runtime directories
 RUN mkdir -p data/raw/uploads outputs
 
+# Set up a new user named "user" with user ID 1000 for Hugging Face Spaces
+RUN useradd -m -u 1000 user
+
+# Give ownership of the working directory to the user
+RUN chown -R user:user /app
+
+# Switch to the "user" user
+USER user
+
 EXPOSE 7860
 
 CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "7860"]
