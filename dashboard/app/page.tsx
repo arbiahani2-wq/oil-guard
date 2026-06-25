@@ -100,7 +100,7 @@ export default function DashboardPage() {
     <div style={{ display: "flex", flexDirection: "column", gap: 20, position: "relative" }}>
 
       {/* ── Page Header ── */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+      <div className="max-md:!flex-col max-md:!items-start max-md:!gap-4" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
         <div>
           <div className="font-mono" style={{ fontSize: 9, color: "var(--text-lo)", letterSpacing: "0.18em", marginBottom: 6 }}>
             MISSION MEDITERRANEAN OIL SURVEILLANCE - SENTINEL-1 SAR
@@ -119,7 +119,7 @@ export default function DashboardPage() {
       </div>
 
       {/* ── KPI Row (5 Cards like mockup) ── */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12 }}>
+      <div className="max-md:!grid-cols-1 max-md:!gap-4" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12 }}>
         <MetricCard
           icon={AlertTriangle} label="ACTIVE ALERTS"
           value={activeAlerts.toString()}
@@ -153,7 +153,7 @@ export default function DashboardPage() {
       </div>
 
       {/* ── Main Layout: Left (Map + Chart) / Right (Sidebar) ── */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 12 }}>
+      <div className="max-md:!grid-cols-1" style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 12 }}>
 
         {/* LEFT COLUMN */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>

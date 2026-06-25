@@ -49,6 +49,7 @@ export default function Sidebar() {
     <aside
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      className="max-md:!w-full max-md:!h-auto max-md:!flex-row max-md:!border-r-0 max-md:!border-b max-md:!border-[var(--wire)] max-md:!min-w-0"
       style={{
         width: expanded ? 228 : 64,
         minWidth: expanded ? 228 : 64,
@@ -66,7 +67,7 @@ export default function Sidebar() {
       }}
     >
       {/* Logo */}
-      <div style={{
+      <div className="max-md:!h-16 max-md:!border-b-0 max-md:!pr-4" style={{
         padding: "18px 16px",
         borderBottom: "1px solid var(--wire)",
         display: "flex",
@@ -95,9 +96,9 @@ export default function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav style={{ flex: 1, padding: "12px 8px", display: "flex", flexDirection: "column", gap: 2 }}>
+      <nav className="max-md:!flex-row max-md:!p-2 max-md:!overflow-x-auto max-md:!items-center" style={{ flex: 1, padding: "12px 8px", display: "flex", flexDirection: "column", gap: 2 }}>
         {expanded && (
-          <div className="font-mono" style={{ marginBottom: 6, padding: "0 6px 6px", fontSize: 9, color: "var(--text-lo)", letterSpacing: "0.18em", fontWeight: 700 }}>
+          <div className="font-mono max-md:!hidden" style={{ marginBottom: 6, padding: "0 6px 6px", fontSize: 9, color: "var(--text-lo)", letterSpacing: "0.18em", fontWeight: 700 }}>
             NAVIGATION
           </div>
         )}
@@ -117,7 +118,7 @@ export default function Sidebar() {
 
       {/* Alert Widget */}
       {alertStats !== null && alertStats.total > 0 && expanded && (
-        <div style={{
+        <div className="max-md:!hidden" style={{
           margin: "0 8px 8px",
           padding: 12,
           borderRadius: "var(--r-md)",
@@ -139,7 +140,7 @@ export default function Sidebar() {
 
       {/* Alert dot (collapsed) */}
       {alertStats !== null && alertStats.total > 0 && !expanded && (
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
+        <div className="max-md:!hidden" style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
           <span className="anim-pulse-plasma" style={{
             width: 8, height: 8, borderRadius: "50%",
             background: "var(--plasma)",
@@ -150,7 +151,7 @@ export default function Sidebar() {
       )}
 
       {/* Settings */}
-      <div style={{ padding: "0 8px 16px", borderTop: "1px solid var(--wire)", paddingTop: 8, marginTop: 0 }}>
+      <div className="max-md:!hidden" style={{ padding: "0 8px 16px", borderTop: "1px solid var(--wire)", paddingTop: 8, marginTop: 0 }}>
         <Link href="/settings" className="nav-item"
           title={!expanded ? "Settings" : undefined}
           style={{ justifyContent: expanded ? "flex-start" : "center", paddingLeft: expanded ? 14 : 0, paddingRight: expanded ? 14 : 0 }}
