@@ -128,7 +128,7 @@ export default function TopBar() {
   const s = statusMap[status];
 
   return (
-    <header className="max-md:!flex-col max-md:!items-start max-md:!gap-3 max-md:!h-auto max-md:!py-3" style={{
+    <header className="max-md:!flex-row max-md:!h-14 max-md:!py-0 max-md:!px-4 max-md:!overflow-hidden" style={{
       height: 50,
       background: "var(--hull)",
       backdropFilter: "blur(20px)",
@@ -143,8 +143,8 @@ export default function TopBar() {
     }}>
 
       {/* Left — Mission label */}
-      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+      <div className="max-md:after:content-['OILGUARD'] max-md:after:font-display max-md:after:text-[16px] max-md:after:font-[800] max-md:after:tracking-[-0.02em] max-md:after:text-[var(--text-hi)]" style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div className="max-md:!hidden" style={{ display: "flex", gap: 6, alignItems: "center" }}>
           <svg width="16" height="12" viewBox="0 0 32 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1 12 C4 4, 8 4, 8 12 C8 20, 12 20, 12 12 C12 4, 16 4, 16 12 C16 20, 20 20, 20 12 C20 4, 24 4, 24 12 C24 20, 28 20, 28 12 C28 4, 31 4, 31 12"
               stroke="var(--biolum)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
@@ -153,7 +153,7 @@ export default function TopBar() {
             MISSION
           </span>
         </div>
-        <span className="font-display" style={{ fontSize: 12, fontWeight: 700, color: "var(--text-hi)", letterSpacing: "0.06em" }}>
+        <span className="font-display max-md:!hidden" style={{ fontSize: 12, fontWeight: 700, color: "var(--text-hi)", letterSpacing: "0.06em" }}>
           MEDITERRANEAN OIL SURVEILLANCE · SENTINEL-1 SAR
         </span>
       </div>

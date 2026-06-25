@@ -49,7 +49,7 @@ export default function Sidebar() {
     <aside
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="max-md:!w-full max-md:!h-auto max-md:!flex-row max-md:!border-r-0 max-md:!border-b max-md:!border-[var(--wire)] max-md:!min-w-0"
+      className="max-md:!w-full max-md:!h-[64px] max-md:!flex-row max-md:!border-r-0 max-md:!border-t max-md:!border-[var(--wire)] max-md:!min-w-0 max-md:!fixed max-md:!bottom-0 max-md:!left-0 max-md:!z-[999] max-md:!bg-[var(--hull)]"
       style={{
         width: expanded ? 228 : 64,
         minWidth: expanded ? 228 : 64,
@@ -67,7 +67,7 @@ export default function Sidebar() {
       }}
     >
       {/* Logo */}
-      <div className="max-md:!h-16 max-md:!border-b-0 max-md:!pr-4" style={{
+      <div className="max-md:!hidden" style={{
         padding: "18px 16px",
         borderBottom: "1px solid var(--wire)",
         display: "flex",
@@ -96,7 +96,7 @@ export default function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="max-md:!flex-row max-md:!p-2 max-md:!overflow-x-auto max-md:!items-center" style={{ flex: 1, padding: "12px 8px", display: "flex", flexDirection: "column", gap: 2 }}>
+      <nav className="max-md:!flex-row max-md:!w-full max-md:!justify-around max-md:!h-full max-md:!items-center max-md:!p-0" style={{ flex: 1, padding: "12px 8px", display: "flex", flexDirection: "column", gap: 2 }}>
         {expanded && (
           <div className="font-mono max-md:!hidden" style={{ marginBottom: 6, padding: "0 6px 6px", fontSize: 9, color: "var(--text-lo)", letterSpacing: "0.18em", fontWeight: 700 }}>
             NAVIGATION
@@ -105,7 +105,7 @@ export default function Sidebar() {
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href;
           return (
-            <Link key={href} href={href} className={`nav-item ${isActive ? "active" : ""}`}
+            <Link key={href} href={href} className={`nav-item max-md:!flex-1 max-md:!h-full max-md:!justify-center max-md:!rounded-none max-md:!px-0 ${isActive ? "active" : ""}`}
               title={!expanded ? label : undefined}
               style={{ justifyContent: expanded ? "flex-start" : "center", paddingLeft: expanded ? 14 : 0, paddingRight: expanded ? 14 : 0 }}
             >
