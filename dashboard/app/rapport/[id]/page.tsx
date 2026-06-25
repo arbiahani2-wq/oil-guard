@@ -239,8 +239,8 @@ export default function RapportPage() {
                 <div className="font-display" style={{ fontSize: 16, fontWeight: 800, color: "var(--safe)" }}>
                   {report.risk_report.cleanup_cost_usd !== undefined ? (
                     report.risk_report.cleanup_cost_usd > 1000000 
-                      ? `$${(report.risk_report.cleanup_cost_usd / 1000000).toFixed(2)}M` 
-                      : `$${(report.risk_report.cleanup_cost_usd / 1000).toFixed(0)}K`
+                      ? `$${(Number(report.risk_report.cleanup_cost_usd) / 1000000).toFixed(2)}M` 
+                      : `$${(Number(report.risk_report.cleanup_cost_usd) / 1000).toFixed(0)}K`
                   ) : "N/A"}
                 </div>
               </div>
@@ -257,7 +257,7 @@ export default function RapportPage() {
                 </div>
                 <div className="font-display" style={{ fontSize: 16, fontWeight: 800, color: "var(--text-hi)" }}>
                   {report.risk_report.distance_to_coast_km !== undefined && report.risk_report.distance_to_coast_km !== null
-                    ? `${report.risk_report.distance_to_coast_km.toFixed(1)} km` 
+                    ? `${Number(report.risk_report.distance_to_coast_km).toFixed(1)} km`
                     : "N/A"}
                 </div>
               </div>
@@ -289,7 +289,7 @@ export default function RapportPage() {
                 </div>
                 <div className="font-display" style={{ fontSize: 16, fontWeight: 800, color: "var(--text-hi)" }}>
                   {report.risk_report.wind_speed_kn !== undefined && report.risk_report.wind_speed_kn !== null
-                    ? `${report.risk_report.wind_speed_kn.toFixed(1)} kn` 
+                    ? `${Number(report.risk_report.wind_speed_kn).toFixed(1)} kn`
                     : "N/A"}
                 </div>
               </div>
@@ -340,8 +340,8 @@ export default function RapportPage() {
                     <tr key={idx}>
                       <td className="font-mono" style={{ color: "var(--text-lo)", fontSize: 10 }}>{String(idx+1).padStart(2,"0")}</td>
                       <td className="font-mono" style={{ color: "var(--biolum)", fontWeight: 700 }}>{polyArea.value}</td>
-                      <td className="font-mono" style={{ fontSize: 11 }}>{s.center_lat.toFixed(4)}°N</td>
-                      <td className="font-mono" style={{ fontSize: 11 }}>{s.center_lon.toFixed(4)}°E</td>
+                      <td className="font-mono" style={{ fontSize: 11 }}>{Number(s.center_lat).toFixed(4)}°N</td>
+                      <td className="font-mono" style={{ fontSize: 11 }}>{Number(s.center_lon).toFixed(4)}°E</td>
                     </tr>
                     );
                   })}
@@ -391,7 +391,7 @@ export default function RapportPage() {
                         <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
                           <Ruler size={10} color="var(--text-lo)" />
                           <span className="font-mono" style={{ fontSize: 11, color: "var(--text-mid)" }}>
-                            {inf.distance_km.toFixed(1)} km
+                            {Number(inf.distance_km).toFixed(1)} km
                           </span>
                         </div>
                         <span className="font-mono" style={{ fontSize: 9, fontWeight: 700, color, letterSpacing: "0.08em" }}>

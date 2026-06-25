@@ -89,19 +89,22 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("oilguard_config", JSON.stringify(DEFAULT_CONFIG));
   };
 
-  const formatArea = (areaKm2: number) => {
-    let value = areaKm2;
+  const formatArea = (areaKm2: any) => {
+    let num = Number(areaKm2);
+    if (isNaN(num)) num = 0;
+    
+    let value = num;
     let unit = "km²";
     
     if (config.units === "mi2") {
-      value = areaKm2 * 0.386102;
+      value = num * 0.386102;
       unit = "mi²";
     } else if (config.units === "ha") {
-      value = areaKm2 * 100;
+      value = num * 100;
       unit = "ha";
     }
     
-    return { value: value.toFixed(2), unit };
+    return { value: value.toFixed(1), unit };
   };
 
   return (

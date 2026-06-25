@@ -67,7 +67,7 @@ export default function DashboardPage() {
   const formattedCost = cleanupCost > 1000000 ? `$${(cleanupCost / 1000000).toFixed(1)}M` : `$${(cleanupCost / 1000).toFixed(0)}K`;
 
   const nearestInfraName = latestReport?.nearest_infrastructures?.[0]?.name || "None";
-  const nearestInfraDist = latestReport?.nearest_infrastructures?.[0]?.distance_km?.toFixed(1) || "--";
+  const nearestInfraDist = latestReport?.nearest_infrastructures?.[0]?.distance_km != null ? Number(latestReport.nearest_infrastructures[0].distance_km).toFixed(1) : "--";
 
   const TREND_DATA = reports.slice(0, 8).reverse().map((r, i) => ({
     day: `#${String(i + 1).padStart(2, "0")}`,
@@ -102,8 +102,8 @@ export default function DashboardPage() {
   const riskColor = riskScore > 80 ? "var(--plasma)" : riskScore > 50 ? "var(--amber)" : "var(--safe)";
   
   const driftDir = riskReport.estimated_drift_direction || "N/A";
-  const windSpeed = riskReport.wind_speed_kn?.toFixed(1) || "0.0";
-  const distCoast = riskReport.distance_to_coast_km?.toFixed(1) || "--";
+  const windSpeed = riskReport.wind_speed_kn != null ? Number(riskReport.wind_speed_kn).toFixed(1) : "0.0";
+  const distCoast = riskReport.distance_to_coast_km != null ? Number(riskReport.distance_to_coast_km).toFixed(1) : "--";
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20, position: "relative" }}>

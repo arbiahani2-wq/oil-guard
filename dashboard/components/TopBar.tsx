@@ -111,8 +111,8 @@ export default function TopBar() {
           if (data.length > 0) {
             const r = data[0];
             setLastDetection({
-              lat: (r.center_lat || 0).toFixed(4),
-              lon: (r.center_lon || 0).toFixed(4),
+              lat: Number(r.center_lat || 0).toFixed(4),
+              lon: Number(r.center_lon || 0).toFixed(4),
               id: r.id,
             });
           }
