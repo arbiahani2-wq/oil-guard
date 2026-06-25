@@ -115,6 +115,13 @@ def _load_ogim_cache():
 
 app = FastAPI(title="OilGuard API")
 
+from fastapi.responses import RedirectResponse
+
+@app.get("/")
+def root():
+    """Redirect root to API documentation."""
+    return RedirectResponse(url="/docs")
+
 # Enable CORS for the Next.js dashboard
 allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
 app.add_middleware(
