@@ -109,7 +109,7 @@ export default function RapportPage() {
           <ArrowLeft size={13} /> Back
         </button>
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div className="max-md:!flex-col max-md:!gap-4" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
           <div>
             <div className="font-mono" style={{ fontSize: 9, color: "var(--text-lo)", letterSpacing: "0.18em", marginBottom: 6 }}>
               OILGUARD / MISSION DEBRIEF
@@ -121,7 +121,7 @@ export default function RapportPage() {
               REF: {report.id} · {report.image_path ? report.image_path.split("/").pop()?.split("\\").pop() : "Unknown"}
             </p>
           </div>
-          <div style={{ display: "flex", gap: 8 }}>
+          <div className="max-md:!w-full max-md:!flex-wrap" style={{ display: "flex", gap: 8 }}>
             <a href={`${API_URL}${report.pdf_url}`} target="_blank" rel="noreferrer">
               <button className="btn-ghost"><Download size={13} /> PDF</button>
             </a>
@@ -158,7 +158,7 @@ export default function RapportPage() {
           </div>
 
           {/* Row 2: 4 stat cards in even grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
+          <div className="max-md:!grid-cols-2 max-md:!gap-2" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
             {/* Infra Risk */}
             <div style={{
               background: "var(--sonar)",
@@ -217,7 +217,7 @@ export default function RapportPage() {
 
           {/* Row 3: Environmental & Weather Data */}
           {report?.risk_report && (
-            <div style={{ 
+            <div className="max-md:!grid-cols-2 max-md:!gap-2" style={{ 
               marginTop: 16, 
               paddingTop: 16, 
               borderTop: "1px solid var(--border)",
@@ -312,7 +312,7 @@ export default function RapportPage() {
       </div>
 
       {/* ── Two-col: Spills + Infra ── */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+      <div className="max-md:!grid-cols-1" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
 
         {/* Spill Zones Table */}
         <div className="glass-card" style={{ overflow: "hidden" }}>
