@@ -1,1 +1,2 @@
 data/ogim/OGIM_mediterranean.gpkg filter=lfs diff=lfs merge=lfs -text
+dashboard/public/demo.tif filter=lfs diff=lfs merge=lfs -text
