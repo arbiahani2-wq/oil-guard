@@ -79,8 +79,9 @@ export default function AnalysePage() {
     if (f) setFile(f);
   };
 
-  const runPipeline = async () => {
-    if (!file) return;
+  const runPipeline = async (overrideFile?: File) => {
+    const targetFile = overrideFile || file;
+    if (!targetFile) return;
     setRunning(true); setFinished(false); setErrorMsg(null);
 
     const update = (idx: number, status: StepStatus, progress: number) =>
@@ -88,7 +89,7 @@ export default function AnalysePage() {
 
     update(0, "running", 50);
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("file", targetFile);
     formData.append("confidence", (config.confidence / 100).toString());
     formData.append("min_area", config.minArea.toString());
     formData.append("infra_critical", (config.infraCritical ?? 2.0).toString());
@@ -194,29 +195,34 @@ export default function AnalysePage() {
 
       {/* ── Demo Suggestion ── */}
       {!file && !running && !finished && (
-        <div style={{ padding: 16, borderRadius: "var(--r-md)", border: "1px dashed var(--wire)", background: "var(--layer-2)", display: "flex", gap: 16, alignItems: "center", marginTop: -6 }}>
+        <div 
+          onClick={async () => {
+            try {
+              const res = await fetch("/demo.tif");
+              if (!res.ok) throw new Error("Demo image not found");
+              const blob = await res.blob();
+              const f = new File([blob], "00080_demo.tif", { type: "image/tiff" });
+              setFile(f);
+              await runPipeline(f);
+            } catch (e) {
+              setErrorMsg("Failed to load demo image.");
+            }
+          }}
+          style={{ padding: 16, borderRadius: "var(--r-md)", border: "1px dashed var(--wire)", background: "var(--layer-2)", display: "flex", gap: 16, alignItems: "center", marginTop: -6, cursor: "pointer", transition: "background 0.2s ease" }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = "var(--layer-3)")}
+          onMouseLeave={(e) => (e.currentTarget.style.background = "var(--layer-2)")}
+        >
           <div style={{ width: 48, height: 48, borderRadius: 6, overflow: "hidden", flexShrink: 0, border: "1px solid var(--wire)", backgroundImage: "url(/demo_preview.jpg)", backgroundSize: "cover", backgroundPosition: "center" }} />
           <div style={{ flex: 1 }}>
             <div className="font-display" style={{ fontSize: 14, fontWeight: 600, color: "var(--text-hi)" }}>Don't have a Sentinel-1 image?</div>
             <div className="font-mono" style={{ fontSize: 11, color: "var(--text-mid)", marginTop: 2 }}>Try our sample SAR imagery (00080.tif)</div>
           </div>
-          <button
+          <div
             className="btn-ghost"
-            onClick={async () => {
-              try {
-                const res = await fetch("/demo.tif");
-                if (!res.ok) throw new Error("Demo image not found");
-                const blob = await res.blob();
-                const f = new File([blob], "00080_demo.tif", { type: "image/tiff" });
-                setFile(f);
-              } catch (e) {
-                setErrorMsg("Failed to load demo image.");
-              }
-            }}
-            style={{ padding: "8px 16px", fontSize: 12, flexShrink: 0, border: "1px solid var(--wire)" }}
+            style={{ padding: "8px 16px", fontSize: 12, flexShrink: 0, border: "1px solid var(--wire)", pointerEvents: "none" }}
           >
             Use Demo Image
-          </button>
+          </div>
         </div>
       )}
 
@@ -235,7 +241,7 @@ export default function AnalysePage() {
       {!running && !finished && (
         <button
           className="btn-primary"
-          onClick={runPipeline}
+          onClick={() => runPipeline()}
           disabled={!file}
           style={{ alignSelf: "flex-start", padding: "13px 28px", fontSize: 14 }}
         >
