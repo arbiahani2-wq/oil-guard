@@ -198,7 +198,7 @@ export default function AnalysePage() {
           <div style={{ width: 48, height: 48, borderRadius: 6, overflow: "hidden", flexShrink: 0, border: "1px solid var(--wire)", backgroundImage: "url(/demo_preview.jpg)", backgroundSize: "cover", backgroundPosition: "center" }} />
           <div style={{ flex: 1 }}>
             <div className="font-display" style={{ fontSize: 14, fontWeight: 600, color: "var(--text-hi)" }}>Don't have a Sentinel-1 image?</div>
-            <div className="font-mono" style={{ fontSize: 11, color: "var(--text-mid)", marginTop: 2 }}>Try our sample SAR imagery (00038.tif)</div>
+            <div className="font-mono" style={{ fontSize: 11, color: "var(--text-mid)", marginTop: 2 }}>Try our sample SAR imagery (00080.tif)</div>
           </div>
           <button
             className="btn-ghost"
@@ -207,7 +207,7 @@ export default function AnalysePage() {
                 const res = await fetch("/demo.tif");
                 if (!res.ok) throw new Error("Demo image not found");
                 const blob = await res.blob();
-                const f = new File([blob], "00038_demo.tif", { type: "image/tiff" });
+                const f = new File([blob], "00080_demo.tif", { type: "image/tiff" });
                 setFile(f);
               } catch (e) {
                 setErrorMsg("Failed to load demo image.");
