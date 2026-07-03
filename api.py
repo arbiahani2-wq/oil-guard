@@ -157,6 +157,15 @@ def ping():
     """Keep-alive endpoint to prevent Hugging Face Space from sleeping."""
     return {"status": "ok"}
 
+from fastapi.responses import FileResponse
+
+@app.get("/demo-image")
+def get_demo_image():
+    """Serves the actual demo image, bypassing frontend LFS pointer issues."""
+    if os.path.exists("00080.tif"):
+        return FileResponse("00080.tif", media_type="image/tiff")
+    raise HTTPException(status_code=404, detail="Demo image not found")
+
 # Enable CORS for the Next.js dashboard
 allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
 app.add_middleware(

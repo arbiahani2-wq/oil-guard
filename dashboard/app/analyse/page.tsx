@@ -198,7 +198,7 @@ export default function AnalysePage() {
         <div 
           onClick={async () => {
             try {
-              const res = await fetch("/demo.tif");
+              const res = await fetch(`${API_URL}/demo-image`);
               if (!res.ok) throw new Error("Demo image not found");
               const blob = await res.blob();
               const f = new File([blob], "00080_demo.tif", { type: "image/tiff" });
