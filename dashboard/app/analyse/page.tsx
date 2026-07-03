@@ -203,17 +203,36 @@ export default function AnalysePage() {
         </div>
       )}
 
-      {/* ── Launch Button ── */}
+      {/* ── Launch Button & Demo ── */}
       {!running && !finished && (
-        <button
-          className="btn-primary"
-          onClick={runPipeline}
-          disabled={!file}
-          style={{ alignSelf: "flex-start", padding: "13px 28px", fontSize: 14 }}
-        >
-          <FileSearch size={16} />
-          Launch Pipeline
-        </button>
+        <div style={{ display: "flex", gap: 12, alignSelf: "flex-start" }}>
+          <button
+            className="btn-primary"
+            onClick={runPipeline}
+            disabled={!file}
+            style={{ padding: "13px 28px", fontSize: 14 }}
+          >
+            <FileSearch size={16} />
+            Launch Pipeline
+          </button>
+          <button
+            className="btn-ghost"
+            onClick={async () => {
+              try {
+                const res = await fetch("/demo.tif");
+                if (!res.ok) throw new Error("Demo image not found");
+                const blob = await res.blob();
+                const f = new File([blob], "demo_satellite_image.tif", { type: "image/tiff" });
+                setFile(f);
+              } catch (e) {
+                setErrorMsg("Failed to load demo image.");
+              }
+            }}
+            style={{ padding: "13px 28px", fontSize: 14 }}
+          >
+            Load Demo Image
+          </button>
+        </div>
       )}
 
       {/* ── Pipeline Progress ── */}

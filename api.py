@@ -152,6 +152,11 @@ def root():
     """Redirect root to API documentation."""
     return RedirectResponse(url="/docs")
 
+@app.get("/ping")
+def ping():
+    """Keep-alive endpoint to prevent Hugging Face Space from sleeping."""
+    return {"status": "ok"}
+
 # Enable CORS for the Next.js dashboard
 allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
 app.add_middleware(
