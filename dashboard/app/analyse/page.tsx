@@ -192,6 +192,34 @@ export default function AnalysePage() {
         )}
       </div>
 
+      {/* ── Demo Suggestion ── */}
+      {!file && !running && !finished && (
+        <div style={{ padding: 16, borderRadius: "var(--r-md)", border: "1px dashed var(--wire)", background: "var(--layer-2)", display: "flex", gap: 16, alignItems: "center", marginTop: -6 }}>
+          <div style={{ width: 48, height: 48, borderRadius: 6, overflow: "hidden", flexShrink: 0, border: "1px solid var(--wire)", backgroundImage: "url(/demo_preview.jpg)", backgroundSize: "cover", backgroundPosition: "center" }} />
+          <div style={{ flex: 1 }}>
+            <div className="font-display" style={{ fontSize: 14, fontWeight: 600, color: "var(--text-hi)" }}>Don't have a Sentinel-1 image?</div>
+            <div className="font-mono" style={{ fontSize: 11, color: "var(--text-mid)", marginTop: 2 }}>Try our sample SAR imagery (00038.tif)</div>
+          </div>
+          <button
+            className="btn-ghost"
+            onClick={async () => {
+              try {
+                const res = await fetch("/demo.tif");
+                if (!res.ok) throw new Error("Demo image not found");
+                const blob = await res.blob();
+                const f = new File([blob], "00038_demo.tif", { type: "image/tiff" });
+                setFile(f);
+              } catch (e) {
+                setErrorMsg("Failed to load demo image.");
+              }
+            }}
+            style={{ padding: "8px 16px", fontSize: 12, flexShrink: 0, border: "1px solid var(--wire)" }}
+          >
+            Use Demo Image
+          </button>
+        </div>
+      )}
+
       {/* ── Error ── */}
       {errorMsg && (
         <div style={{ padding: 16, borderRadius: "var(--r-md)", background: "var(--plasma-bg)", border: "1px solid rgba(255,61,96,0.3)", display: "flex", gap: 12, alignItems: "flex-start" }}>
@@ -203,36 +231,17 @@ export default function AnalysePage() {
         </div>
       )}
 
-      {/* ── Launch Button & Demo ── */}
+      {/* ── Launch Button ── */}
       {!running && !finished && (
-        <div style={{ display: "flex", gap: 12, alignSelf: "flex-start" }}>
-          <button
-            className="btn-primary"
-            onClick={runPipeline}
-            disabled={!file}
-            style={{ padding: "13px 28px", fontSize: 14 }}
-          >
-            <FileSearch size={16} />
-            Launch Pipeline
-          </button>
-          <button
-            className="btn-ghost"
-            onClick={async () => {
-              try {
-                const res = await fetch("/demo.tif");
-                if (!res.ok) throw new Error("Demo image not found");
-                const blob = await res.blob();
-                const f = new File([blob], "demo_satellite_image.tif", { type: "image/tiff" });
-                setFile(f);
-              } catch (e) {
-                setErrorMsg("Failed to load demo image.");
-              }
-            }}
-            style={{ padding: "13px 28px", fontSize: 14 }}
-          >
-            Load Demo Image
-          </button>
-        </div>
+        <button
+          className="btn-primary"
+          onClick={runPipeline}
+          disabled={!file}
+          style={{ alignSelf: "flex-start", padding: "13px 28px", fontSize: 14 }}
+        >
+          <FileSearch size={16} />
+          Launch Pipeline
+        </button>
       )}
 
       {/* ── Pipeline Progress ── */}
