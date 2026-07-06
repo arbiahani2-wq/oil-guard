@@ -161,58 +161,9 @@ from fastapi.responses import FileResponse
 
 @app.get("/demo-image")
 def get_demo_image():
-    """Serves the actual demo image, bypassing frontend LFS pointer issues."""
-    # Save to UPLOAD_DIR to avoid PermissionError on git-tracked files
-    demo_path = os.path.join(UPLOAD_DIR, "00080_downloaded.tif")
-    
-    # Check if we already downloaded a valid image
-    if not os.path.exists(demo_path) or os.path.getsize(demo_path) < 1024:
-        logging.info("Demo image is missing or is an LFS pointer. Downloading real image...")
-        try:
-            import requests
-            # Use GitHub LFS raw URL as primary because it reliably returns the 33MB file
-            demo_url = "https://media.githubusercontent.com/media/arbiahani2-wq/oil-guard/main/00080.tif"
-            logging.info(f"Downloading from GitHub: {demo_url}")
-            
-            response = requests.get(demo_url, stream=True)
-            response.raise_for_status()
-            
-            with open(demo_path, "wb") as f:
-                for chunk in response.iter_content(chunk_size=8192*100):
-                    if chunk:
-                        f.write(chunk)
-                        
-            # Verify it actually downloaded the real file and not just a pointer
-            if os.path.getsize(demo_path) < 1024:
-                raise ValueError("Downloaded file is too small (likely an LFS pointer)")
-                
-            logging.info("Demo image downloaded successfully!")
-        except Exception as e:
-            logging.error(f"Failed to download demo image from GitHub {demo_url}: {e}")
-            # Try fallback Hugging Face URL
-            try:
-                fallback_url = "https://huggingface.co/spaces/haniy5/oil-guard-api/resolve/main/00080.tif"
-                logging.info(f"Trying fallback Hugging Face URL: {fallback_url}")
-                
-                headers = {}
-                hf_token = os.getenv("HF_TOKEN")
-                if hf_token:
-                    headers["Authorization"] = f"Bearer {hf_token}"
-                    
-                response = requests.get(fallback_url, stream=True, headers=headers)
-                response.raise_for_status()
-                with open(demo_path, "wb") as f:
-                    for chunk in response.iter_content(chunk_size=8192*100):
-                        if chunk:
-                            f.write(chunk)
-                logging.info("Demo image downloaded successfully from fallback!")
-            except Exception as e2:
-                logging.error(f"Failed to download demo image from fallback {fallback_url}: {e2}")
-                raise HTTPException(status_code=404, detail="Demo image not found or failed to download")
-
-    if os.path.exists(demo_path) and os.path.getsize(demo_path) > 1024:
-        return FileResponse(demo_path, media_type="image/tiff")
-        
+    """Serves the actual demo image directly from the repository."""
+    if os.path.exists("00080.tif"):
+        return FileResponse("00080.tif", media_type="image/tiff")
     raise HTTPException(status_code=404, detail="Demo image not found")
 
 # Enable CORS for the Next.js dashboard
