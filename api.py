@@ -170,29 +170,36 @@ def get_demo_image():
         logging.info("Demo image is missing or is an LFS pointer. Downloading real image...")
         try:
             import requests
-            # Use GitHub LFS raw URL or Hugging Face resolve URL
-            demo_url = "https://huggingface.co/spaces/haniy5/oil-guard-api/resolve/main/00080.tif"
+            # Use GitHub LFS raw URL as primary because it reliably returns the 33MB file
+            demo_url = "https://media.githubusercontent.com/media/arbiahani2-wq/oil-guard/main/00080.tif"
+            logging.info(f"Downloading from GitHub: {demo_url}")
             
-            headers = {}
-            hf_token = os.getenv("HF_TOKEN")
-            if hf_token:
-                headers["Authorization"] = f"Bearer {hf_token}"
-                
-            response = requests.get(demo_url, stream=True, headers=headers)
+            response = requests.get(demo_url, stream=True)
             response.raise_for_status()
             
             with open(demo_path, "wb") as f:
                 for chunk in response.iter_content(chunk_size=8192*100):
                     if chunk:
                         f.write(chunk)
+                        
+            # Verify it actually downloaded the real file and not just a pointer
+            if os.path.getsize(demo_path) < 1024:
+                raise ValueError("Downloaded file is too small (likely an LFS pointer)")
+                
             logging.info("Demo image downloaded successfully!")
         except Exception as e:
-            logging.error(f"Failed to download demo image from {demo_url}: {e}")
-            # Try fallback GitHub URL just in case
+            logging.error(f"Failed to download demo image from GitHub {demo_url}: {e}")
+            # Try fallback Hugging Face URL
             try:
-                fallback_url = "https://media.githubusercontent.com/media/arbiahani2-wq/oil-guard/main/00080.tif"
-                logging.info(f"Trying fallback URL: {fallback_url}")
-                response = requests.get(fallback_url, stream=True)
+                fallback_url = "https://huggingface.co/spaces/haniy5/oil-guard-api/resolve/main/00080.tif"
+                logging.info(f"Trying fallback Hugging Face URL: {fallback_url}")
+                
+                headers = {}
+                hf_token = os.getenv("HF_TOKEN")
+                if hf_token:
+                    headers["Authorization"] = f"Bearer {hf_token}"
+                    
+                response = requests.get(fallback_url, stream=True, headers=headers)
                 response.raise_for_status()
                 with open(demo_path, "wb") as f:
                     for chunk in response.iter_content(chunk_size=8192*100):
