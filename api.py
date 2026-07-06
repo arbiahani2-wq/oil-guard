@@ -162,9 +162,10 @@ from fastapi.responses import FileResponse
 @app.get("/demo-image")
 def get_demo_image():
     """Serves the actual demo image, bypassing frontend LFS pointer issues."""
-    demo_path = "00080.tif"
+    # Save to UPLOAD_DIR to avoid PermissionError on git-tracked files
+    demo_path = os.path.join(UPLOAD_DIR, "00080_downloaded.tif")
     
-    # Check if the file is missing or is just a small LFS pointer (< 1KB)
+    # Check if we already downloaded a valid image
     if not os.path.exists(demo_path) or os.path.getsize(demo_path) < 1024:
         logging.info("Demo image is missing or is an LFS pointer. Downloading real image...")
         try:
