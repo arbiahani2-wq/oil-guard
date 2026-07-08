@@ -20,6 +20,11 @@ OUTPUTS_DIR = "outputs"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(OUTPUTS_DIR, exist_ok=True)
 
+# Demo image constants
+DEMO_IMAGE_PATH = "00080.tif"
+# Git LFS pointer files are ~130 bytes; anything smaller than 1 MB is not a real image.
+DEMO_IMAGE_MIN_SIZE = 1_000_000
+
 # Initialize pipeline lazily to save startup time
 pipeline = None
 
@@ -74,6 +79,53 @@ def download_model_if_missing():
 
 # Trigger model download immediately on startup/import
 download_model_if_missing()
+
+def ensure_demo_image() -> bool:
+    """Ensure the demo image is a real file (not a Git LFS pointer).
+
+    On Hugging Face Spaces, large files tracked by Git LFS may not be
+    fetched automatically, leaving only a small pointer text file on disk.
+    This function detects that case (file < DEMO_IMAGE_MIN_SIZE) and
+    attempts to download the real image from the DEMO_IMAGE_URL env var.
+    Returns True if a valid demo image is available.
+    """
+    path = DEMO_IMAGE_PATH
+    if os.path.exists(path) and os.path.getsize(path) >= DEMO_IMAGE_MIN_SIZE:
+        return True
+
+    if os.path.exists(path):
+        logging.warning(
+            f"Demo image at '{path}' is only {os.path.getsize(path)} bytes — "
+            "likely a Git LFS pointer, not the real image."
+        )
+    else:
+        logging.warning(f"Demo image not found at '{path}'.")
+
+    demo_url = os.getenv("DEMO_IMAGE_URL")
+    if not demo_url:
+        logging.warning(
+            "Set the DEMO_IMAGE_URL environment variable to enable the demo image download."
+        )
+        return False
+
+    logging.info(f"Downloading demo image from DEMO_IMAGE_URL: {demo_url} ...")
+    try:
+        import requests
+        headers = {}
+        hf_token = os.getenv("HF_TOKEN")
+        if hf_token:
+            headers["Authorization"] = f"Bearer {hf_token}"
+        response = requests.get(demo_url, headers=headers, stream=True, timeout=60)
+        response.raise_for_status()
+        with open(path, "wb") as f:
+            for chunk in response.iter_content(chunk_size=8192 * 16):
+                if chunk:
+                    f.write(chunk)
+        logging.info(f"Demo image downloaded successfully to '{path}'.")
+        return os.path.getsize(path) >= DEMO_IMAGE_MIN_SIZE
+    except Exception as e:
+        logging.error(f"Failed to download demo image from {demo_url}: {e}")
+        return False
 
 def download_ogim_if_missing():
     ogim_path = r"data/ogim/OGIM_v2.7.gpkg"
@@ -161,10 +213,28 @@ from fastapi.responses import FileResponse
 
 @app.get("/demo-image")
 def get_demo_image():
-    """Serves the actual demo image directly from the repository."""
-    if os.path.exists("00080.tif"):
-        return FileResponse("00080.tif", media_type="image/tiff")
-    raise HTTPException(status_code=404, detail="Demo image not found")
+    """Serves the demo SAR image (00080.tif).
+
+    If the file is missing or is only a Git LFS pointer (common on Hugging Face
+    Spaces when LFS objects are not fetched), the endpoint will attempt to
+    download the real file from the DEMO_IMAGE_URL environment variable before
+    serving it.
+    """
+    if ensure_demo_image():
+        return FileResponse(
+            DEMO_IMAGE_PATH,
+            media_type="image/tiff",
+            filename="00080_demo.tif"
+        )
+    raise HTTPException(
+        status_code=404,
+        detail=(
+            "Demo image not available. "
+            "The file may be a Git LFS pointer that was not fetched. "
+            "Set the DEMO_IMAGE_URL environment variable on this Space "
+            "to point to the downloadable .tif file."
+        )
+    )
 
 # Enable CORS for the Next.js dashboard
 allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
