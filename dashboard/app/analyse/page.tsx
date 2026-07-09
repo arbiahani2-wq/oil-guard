@@ -79,9 +79,9 @@ export default function AnalysePage() {
     if (f) setFile(f);
   };
 
-  const runPipeline = async (overrideFile?: File) => {
+  const runPipeline = async (overrideFile?: File | null, useDemo: boolean = false) => {
     const targetFile = overrideFile || file;
-    if (!targetFile) return;
+    if (!targetFile && !useDemo) return;
     setRunning(true); setFinished(false); setErrorMsg(null);
 
     const update = (idx: number, status: StepStatus, progress: number) =>
@@ -89,7 +89,12 @@ export default function AnalysePage() {
 
     update(0, "running", 50);
     const formData = new FormData();
-    formData.append("file", targetFile);
+    if (targetFile && !useDemo) {
+      formData.append("file", targetFile);
+    }
+    if (useDemo) {
+      formData.append("use_demo", "true");
+    }
     formData.append("confidence", (config.confidence / 100).toString());
     formData.append("min_area", config.minArea.toString());
     formData.append("infra_critical", (config.infraCritical ?? 2.0).toString());
@@ -198,23 +203,11 @@ export default function AnalysePage() {
         <div 
           onClick={async () => {
             try {
-              const res = await fetch(`${API_URL}/demo-image`);
-              if (!res.ok) {
-                // The server could not provide the file — likely a Git LFS / config issue
-                const detail = await res.json().then((j: { detail?: string }) => j.detail).catch(() => null);
-                throw new Error(detail || `Server returned ${res.status}`);
-              }
-              const blob = await res.blob();
-              if (blob.size < 1_000_000) {
-                // Received something far too small — almost certainly an LFS pointer text file
-                throw new Error("Received file is too small — the demo image may be a Git LFS pointer that was not fetched on the server.");
-              }
-              const f = new File([blob], "00080_demo.tif", { type: "image/tiff" });
-              setFile(f);
-              await runPipeline(f);
+              setFile(new File([""], "00080.tif", { type: "image/tiff" })); // Visual feedback
+              await runPipeline(null, true);
             } catch (e: unknown) {
               const msg = e instanceof Error ? e.message : "Unknown error";
-              setErrorMsg(`Failed to load demo image: ${msg}`);
+              setErrorMsg(`Failed to launch demo: ${msg}`);
             }
           }}
           style={{ padding: 16, borderRadius: "var(--r-md)", border: "1px dashed var(--wire)", background: "var(--layer-2)", display: "flex", gap: 16, alignItems: "center", marginTop: -6, cursor: "pointer", transition: "background 0.2s ease" }}

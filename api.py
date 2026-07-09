@@ -283,7 +283,8 @@ from fastapi import FastAPI, UploadFile, File, HTTPException, Query, Form
 
 @app.post("/analyze")
 async def analyze_image(
-    file: UploadFile = File(...),
+    file: Optional[UploadFile] = File(None),
+    use_demo: bool = Form(False),
     confidence: float = Form(0.85),
     min_area: float = Form(0.5),
     infra_critical: float = Form(2.0),
@@ -295,15 +296,25 @@ async def analyze_image(
     coast_critical: float = Form(5.0),
     coast_warning: float = Form(20.0)
 ):
-    if not file.filename.endswith(('.tif', '.tiff')):
-        raise HTTPException(status_code=400, detail="Only .tif or .tiff files are supported.")
+    if use_demo:
+        if not ensure_demo_image():
+            raise HTTPException(status_code=404, detail="Demo image not available. The file may be a Git LFS pointer that was not fetched. Set the DEMO_IMAGE_URL environment variable on this Space to point to the downloadable .tif file.")
         
-    analysis_id = time.strftime("%Y%m%d-%H%M%S")
-    
-    # Save uploaded file
-    file_path = os.path.join(UPLOAD_DIR, f"{analysis_id}_{file.filename}")
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+        analysis_id = time.strftime("%Y%m%d-%H%M%S")
+        file_path = os.path.join(UPLOAD_DIR, f"{analysis_id}_00080.tif")
+        shutil.copy2(DEMO_IMAGE_PATH, file_path)
+    else:
+        if not file:
+            raise HTTPException(status_code=400, detail="Must provide a file or set use_demo=true")
+        if not file.filename.endswith(('.tif', '.tiff')):
+            raise HTTPException(status_code=400, detail="Only .tif or .tiff files are supported.")
+            
+        analysis_id = time.strftime("%Y%m%d-%H%M%S")
+        
+        # Save uploaded file
+        file_path = os.path.join(UPLOAD_DIR, f"{analysis_id}_{file.filename}")
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
         
     # Setup dedicated output directory for this analysis
     run_output_dir = os.path.join(OUTPUTS_DIR, analysis_id)
